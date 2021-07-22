@@ -1,3 +1,5 @@
+import {request} from "@@/plugin-request/request";
+
 declare module 'slash2';
 declare module '*.css';
 declare module '*.less';
@@ -22,3 +24,5 @@ declare module 'bizcharts-plugin-slider';
 declare let ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION: 'site' | undefined;
 
 declare const REACT_APP_ENV: 'test' | 'dev' | 'pre' | false;
+
+type RequestOptions = Parameters<typeof request>[1]

@@ -47,7 +47,7 @@ const Login: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (values: API.LoginParams) => {
+  const handleSubmit = async (values: API.SignParams) => {
     setSubmitting(true);
     try {
       // 登录
@@ -120,7 +120,7 @@ const Login: React.FC = () => {
               },
             }}
             onFinish={async (values) => {
-              handleSubmit(values as API.LoginParams);
+              handleSubmit(values as API.SignParams);
             }}
           >
             <Tabs activeKey={type} onChange={setType}>
