@@ -15,10 +15,6 @@ const CodePreview: React.FC = ({ children }) => (
 export default (): React.ReactNode => {
   const intl = useIntl();
 
-  useRequest(()=>request('/api/books'),{onSuccess:(data)=>{
-    console.log(data)
-  }})
-
   return (
     <PageContainer>
       <Card>
