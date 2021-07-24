@@ -1,39 +1,25 @@
 import {
   AlipayCircleOutlined,
   LockOutlined,
-  TaobaoCircleOutlined,
+  MailOutlined,
   UserOutlined,
-  WeiboCircleOutlined,
 } from '@ant-design/icons';
-import { Alert, Space, Tabs } from 'antd';
-import React, { useState } from 'react';
-import ProForm, { ProFormText } from '@ant-design/pro-form';
-import { useIntl, Link, FormattedMessage, SelectLang, useModel } from 'umi';
+import {Alert, Tabs} from 'antd';
+import React, {useState} from 'react';
+import ProForm, {ProFormSelect, ProFormText} from '@ant-design/pro-form';
+import {useIntl, Link, FormattedMessage, SelectLang, useModel, history} from 'umi';
 import Footer from '@/components/Footer';
-import {login} from "@/services/account";
+import {login, sign} from "@/services/account";
 import styles from './index.less';
-
-const LoginMessage: React.FC<{
-  content: string;
-}> = ({ content }) => (
-  <Alert
-    style={{
-      marginBottom: 24,
-    }}
-    message={content}
-    type="error"
-    showIcon
-  />
-);
+import {Space} from 'antd';
+import {useForm} from 'antd/lib/form/Form';
+import notification from 'antd/lib/notification';
+import { Button } from 'antd';
+import {useUserLogic} from "@/pages/user/Login/useUserLogic";
 
 const Login: React.FC = () => {
-  const [submitting, setSubmitting] = useState(false);
-  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
-  const [type, setType] = useState<string>('account');
-  const { initialState, setInitialState } = useModel('@@initialState');
-
+  const {initialState, setInitialState} = useModel('@@initialState');
   const intl = useIntl();
-
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
     if (userInfo) {
@@ -43,13 +29,35 @@ const Login: React.FC = () => {
       }));
     }
   };
+  const [form] = useForm<API.SignParams | API.LoginParams>();
 
-  const { status, type: loginType } = userLoginState;
+  const {loginService, signService, nationList,Alert:ErrorAlert,type, setType} = useUserLogic({
+    onSuccessForLogin: async()=>{
+      await fetchUserInfo();
+      form.resetFields()
+      if (!history) return;
+      const {query} = history.location;
+      const {redirect} = query as { redirect: string };
+      history.push(redirect || '/');
+    },onSuccessForSign:()=>{
+      notification.success({
+        message: '账号注册成功',
+        description:
+          '账号注册成功，请使用用户名密码登录登录',
+      });
+      setType('login')
+    }})
 
+  const onFinish = async (values: API.SignParams | API.LoginParams) => {
+    if (type === 'login')
+      loginService.run(values as API.LoginParams)
+    else
+      signService.run(values as API.SignParams)
+  }
   return (
     <div className={styles.container}>
       <div className={styles.lang} data-lang>
-        {SelectLang && <SelectLang />}
+        {SelectLang && <SelectLang/>}
       </div>
       <div className={styles.content}>
         <div className={styles.top}>
@@ -59,12 +67,31 @@ const Login: React.FC = () => {
             </Link>
           </div>
           <div className={styles.desc}>
-            {intl.formatMessage({ id: 'pages.layouts.userLayout.title' })}
+            {intl.formatMessage({id: 'pages.layouts.userLayout.title'})}
           </div>
         </div>
 
         <div className={styles.main}>
+          <Tabs activeKey={type} onChange={setType}>
+            <Tabs.TabPane
+              key="login"
+              tab={intl.formatMessage({
+                id: 'pages.login.Login.tab',
+                defaultMessage: '登录',
+              })}
+            />
+            <Tabs.TabPane
+              key="sign"
+              tab={intl.formatMessage({
+                id: 'pages.login.Sign.tab',
+                defaultMessage: '注册',
+              })}
+            />
+          </Tabs>
+
+
           <ProForm
+            form={form}
             initialValues={{
               autoLogin: true,
             }}
@@ -77,89 +104,95 @@ const Login: React.FC = () => {
               },
               render: (_, dom) => dom.pop(),
               submitButtonProps: {
-                loading: submitting,
+                loading: signService.loading||loginService.loading,
                 size: 'large',
                 style: {
                   width: '100%',
                 },
               },
             }}
-            onFinish={async (values) => {
-              login(values).then((response)=>{
-
-              })
-            }}
+            onFinish={onFinish}
           >
-            <Tabs activeKey={type} onChange={setType}>
-              <Tabs.TabPane
-                key="account"
-                tab={intl.formatMessage({
-                  id: 'pages.login.accountLogin.tab',
-                  defaultMessage: '账户密码登录',
-                })}
-              />
-            </Tabs>
 
-            {status === 'error' && loginType === 'account' && (
-              <LoginMessage
-                content={intl.formatMessage({
-                  id: 'pages.login.accountLogin.errorMessage',
-                  defaultMessage: '账户或密码错误（admin/ant.design)',
-                })}
+
+            {ErrorAlert}
+            <>
+
+              <ProFormText
+                name="username"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <UserOutlined className={styles.prefixIcon}/>,
+                }}
+                placeholder="请输入用户名"
+                rules={[
+                  {
+                    required: true,
+                    message: (
+                      <FormattedMessage
+                        id="pages.login.username.required"
+                        defaultMessage="请输入用户名!"
+                      />
+                    ),
+                  },
+                ]}
               />
-            )}
-            {type === 'account' && (
-              <>
-                <ProFormText
-                  name="username"
-                  fieldProps={{
-                    size: 'large',
-                    prefix: <UserOutlined className={styles.prefixIcon} />,
-                  }}
-                  placeholder={intl.formatMessage({
-                    id: 'pages.login.username.placeholder',
-                    defaultMessage: '用户名: admin or user',
-                  })}
-                  rules={[
-                    {
-                      required: true,
-                      message: (
-                        <FormattedMessage
-                          id="pages.login.username.required"
-                          defaultMessage="请输入用户名!"
-                        />
-                      ),
-                    },
-                  ]}
-                />
-                <ProFormText.Password
-                  name="password"
-                  fieldProps={{
-                    size: 'large',
-                    prefix: <LockOutlined className={styles.prefixIcon} />,
-                  }}
-                  placeholder={intl.formatMessage({
-                    id: 'pages.login.password.placeholder',
-                    defaultMessage: '密码: ant.design',
-                  })}
-                  rules={[
-                    {
-                      required: true,
-                      message: (
-                        <FormattedMessage
-                          id="pages.login.password.required"
-                          defaultMessage="请输入密码！"
-                        />
-                      ),
-                    },
-                  ]}
-                />
-              </>
-            )}
+              <ProFormText.Password
+                name="password"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <LockOutlined className={styles.prefixIcon}/>,
+                }}
+                placeholder="请输入密码"
+                rules={[
+                  {
+                    required: true,
+                    message: (
+                      <FormattedMessage
+                        id="pages.login.password.required"
+                        defaultMessage="请输入密码！"
+                      />
+                    ),
+                  },
+                ]}
+              />
+              {type === 'sign' && (
+                <>
+                  <ProFormText.Password
+                    name="confirmPassword"
+                    fieldProps={{
+                      size: 'large',
+                      prefix: <LockOutlined className={styles.prefixIcon}/>,
+                    }}
+                    placeholder="再次输入密码"
+                    rules={[
+                      {
+                        required: true,
+                        message: (
+                          <FormattedMessage
+                            id="pages.login.password.required"
+                            defaultMessage="再次输入密码！"
+                          />
+                        ),
+                      },
+                    ]}
+                  />
+                  <ProFormText fieldProps={{size: 'large', prefix: <MailOutlined className={styles.prefixIcon}/>}}
+                               placeholder="请填写你的邮箱@" rules={[{required: true, message: '请选择你的民族！'}]} name="email"/>
+                  <ProFormSelect options={nationList.map((item) => ({value: item.id, label: item.name}))}
+                                 fieldProps={{size: 'large'}} placeholder="请选择你的民族"
+                                 rules={[{required: true, message: '请选择你的民族！'}]} name="nationId"/>
+                </>
+              )}
+            </>
           </ProForm>
+          <Space className={styles.other}>
+            <FormattedMessage id="pages.login.loginWith" defaultMessage="其他登录方式"/>
+            <AlipayCircleOutlined className={styles.icon}/>
+          </Space>
         </div>
       </div>
-      <Footer />
+      <Footer/>
     </div>
   );
 };

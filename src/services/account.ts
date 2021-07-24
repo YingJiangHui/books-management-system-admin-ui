@@ -1,4 +1,4 @@
-import {request} from "@@/plugin-request/request";
+import { request } from 'umi';
 import type {RequestOptions} from "@/typings";
 
 
@@ -22,7 +22,7 @@ export async function login(data: API.LoginParams, options?: RequestOptions) {
 }
 
 export async function sign(data: API.SignParams, options?: RequestOptions) {
-  return request<void>('/api/account/sign', {
+  return request<API.CurrentUser>('/api/account/sign', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
