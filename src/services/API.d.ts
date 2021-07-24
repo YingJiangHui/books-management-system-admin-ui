@@ -30,10 +30,10 @@ declare namespace API {
     id: number
   }
 
-  type ErrorDataFor404 = {
+  type ErrorData = {
     error: string
     message: {field: string, subErrors: string[]}[]
-    statusCode: 400
+    statusCode: number
   }
 }
 
