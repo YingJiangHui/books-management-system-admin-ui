@@ -1,5 +1,5 @@
 import {useMemo, useState} from "react";
-import {Alert as UmiAlert, Tabs} from 'antd';
+import {Alert as UmiAlert} from 'antd';
 
 export const useHttpErrorHandler = () => {
   const [errorData, setErrorData] = useState<API.ErrorData | null>();
