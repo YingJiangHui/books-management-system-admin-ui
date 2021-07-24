@@ -11,8 +11,8 @@ export async function getInventory(options?: { [key: string]: any }) {
 }
 
 /** Place an order for a pet POST /store/order */
-export async function placeOrder(body: API.Order, options?: { [key: string]: any }) {
-  return request<API.Order>('/store/order', {
+export async function placeOrder(body: SwaggerAPI.Order, options?: { [key: string]: any }) {
+  return request<SwaggerAPI.Order>('/store/order', {
     method: 'POST',
     data: body,
     ...(options || {}),
@@ -29,14 +29,14 @@ export async function getOrderById(
   options?: { [key: string]: any },
 ) {
   const { orderId: param0 } = params;
-  return request<API.Order>(`/store/order/${param0}`, {
+  return request<SwaggerAPI.Order>(`/store/order/${param0}`, {
     method: 'GET',
     params: { ...params },
     ...(options || {}),
   });
 }
 
-/** Delete purchase order by ID For valid response try integer IDs with positive integer value.         Negative or non-integer values will generate API errors DELETE /store/order/${param0} */
+/** Delete purchase order by ID For valid response try integer IDs with positive integer value.         Negative or non-integer values will generate SwaggerAPI errors DELETE /store/order/${param0} */
 export async function deleteOrder(
   params: {
     // path

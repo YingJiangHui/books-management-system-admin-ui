@@ -3,7 +3,7 @@
 import { request } from 'umi';
 
 /** Update an existing pet PUT /pet */
-export async function updatePet(body: API.Pet, options?: { [key: string]: any }) {
+export async function updatePet(body: SwaggerAPI.Pet, options?: { [key: string]: any }) {
   return request<any>('/pet', {
     method: 'PUT',
     headers: {
@@ -15,7 +15,7 @@ export async function updatePet(body: API.Pet, options?: { [key: string]: any })
 }
 
 /** Add a new pet to the store POST /pet */
-export async function addPet(body: API.Pet, options?: { [key: string]: any }) {
+export async function addPet(body: SwaggerAPI.Pet, options?: { [key: string]: any }) {
   return request<any>('/pet', {
     method: 'POST',
     headers: {
@@ -35,7 +35,7 @@ export async function findPetsByStatus(
   },
   options?: { [key: string]: any },
 ) {
-  return request<API.Pet[]>('/pet/findByStatus', {
+  return request<SwaggerAPI.Pet[]>('/pet/findByStatus', {
     method: 'GET',
     params: {
       ...params,
@@ -54,7 +54,7 @@ export async function findPetsByTags(
   },
   options?: { [key: string]: any },
 ) {
-  return request<API.Pet[]>('/pet/findByTags', {
+  return request<SwaggerAPI.Pet[]>('/pet/findByTags', {
     method: 'GET',
     params: {
       ...params,
@@ -74,7 +74,7 @@ export async function getPetById(
   options?: { [key: string]: any },
 ) {
   const { petId: param0 } = params;
-  return request<API.Pet>(`/pet/${param0}`, {
+  return request<SwaggerAPI.Pet>(`/pet/${param0}`, {
     method: 'GET',
     params: { ...params },
 
@@ -154,7 +154,7 @@ export async function uploadFile(
     }
   });
 
-  return request<API.ApiResponse>(`/pet/${param0}/uploadImage`, {
+  return request<SwaggerAPI.ApiResponse>(`/pet/${param0}/uploadImage`, {
     method: 'POST',
     headers: {
       'Content-Type': 'multipart/form-data',

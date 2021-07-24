@@ -3,7 +3,7 @@
 import { request } from 'umi';
 
 /** Create user This can only be done by the logged in user. POST /user */
-export async function createUser(body: API.User, options?: { [key: string]: any }) {
+export async function createUser(body: SwaggerAPI.User, options?: { [key: string]: any }) {
   return request<any>('/user', {
     method: 'POST',
     data: body,
@@ -13,7 +13,7 @@ export async function createUser(body: API.User, options?: { [key: string]: any 
 
 /** Creates list of users with given input array POST /user/createWithArray */
 export async function createUsersWithArrayInput(
-  body: API.User[],
+  body: SwaggerAPI.User[],
   options?: { [key: string]: any },
 ) {
   return request<any>('/user/createWithArray', {
@@ -24,7 +24,7 @@ export async function createUsersWithArrayInput(
 }
 
 /** Creates list of users with given input array POST /user/createWithList */
-export async function createUsersWithListInput(body: API.User[], options?: { [key: string]: any }) {
+export async function createUsersWithListInput(body: SwaggerAPI.User[], options?: { [key: string]: any }) {
   return request<any>('/user/createWithList', {
     method: 'POST',
     data: body,
@@ -70,7 +70,7 @@ export async function getUserByName(
   options?: { [key: string]: any },
 ) {
   const { username: param0 } = params;
-  return request<API.User>(`/user/${param0}`, {
+  return request<SwaggerAPI.User>(`/user/${param0}`, {
     method: 'GET',
     params: { ...params },
     ...(options || {}),
@@ -84,7 +84,7 @@ export async function updateUser(
     /** name that need to be updated */
     username: string;
   },
-  body: API.User,
+  body: SwaggerAPI.User,
   options?: { [key: string]: any },
 ) {
   const { username: param0 } = params;

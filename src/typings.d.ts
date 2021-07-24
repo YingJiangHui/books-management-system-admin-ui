@@ -1,4 +1,4 @@
-import {request} from "@@/plugin-request/request";
+import {request} from "umi";
 
 declare module 'slash2';
 declare module '*.css';

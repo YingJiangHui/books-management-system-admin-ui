@@ -1,7 +1,7 @@
 // @ts-ignore
 /* eslint-disable */
 
-declare namespace API {
+declare namespace SwaggerAPI {
   type Order = {
     id?: number;
     petId?: number;

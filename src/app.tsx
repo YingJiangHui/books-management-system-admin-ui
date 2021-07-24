@@ -6,6 +6,7 @@ import { history, Link } from 'umi';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
+import {getCurrentUser} from "@/services/user";
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -25,7 +26,7 @@ export async function getInitialState(): Promise<{
 }> {
   const fetchUserInfo = async () => {
     try {
-      const msg = await queryCurrentUser();
+      const msg = await getCurrentUser();
       return msg.data;
     } catch (error) {
       history.push(loginPath);
@@ -104,9 +105,9 @@ export const request: RequestConfig = {
 export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
     rightContentRender: () => <RightContent />,
-    disableContentMargin: false,
+    // disableContentMargin: false,
     waterMarkProps: {
-      content: initialState?.currentUser?.name,
+      // content: initialState?.currentUser?.username,
     },
     footerRender: () => <Footer />,
     onPageChange: () => {
@@ -128,7 +129,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
           </Link>,
         ]
       : [],
-    menuHeaderRender: undefined,
+    menuHeaderRender: false,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
     ...initialState?.settings,

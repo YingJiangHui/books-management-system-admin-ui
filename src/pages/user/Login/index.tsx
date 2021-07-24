@@ -55,7 +55,7 @@ const Login: React.FC = () => {
         <div className={styles.top}>
           <div className={styles.header}>
             <Link to="/">
-              <span className={styles.title}>Books Management System</span>
+              <span className={styles.title}>图书管理系统</span>
             </Link>
           </div>
           <div className={styles.desc}>
@@ -85,7 +85,9 @@ const Login: React.FC = () => {
               },
             }}
             onFinish={async (values) => {
-              await login(values)
+              login(values).then((response)=>{
+
+              })
             }}
           >
             <Tabs activeKey={type} onChange={setType}>
@@ -155,12 +157,6 @@ const Login: React.FC = () => {
               </>
             )}
           </ProForm>
-          <Space className={styles.other}>
-            <FormattedMessage id="pages.login.loginWith" defaultMessage="其他登录方式" />
-            <AlipayCircleOutlined className={styles.icon} />
-            <TaobaoCircleOutlined className={styles.icon} />
-            <WeiboCircleOutlined className={styles.icon} />
-          </Space>
         </div>
       </div>
       <Footer />

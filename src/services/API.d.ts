@@ -11,10 +11,7 @@ declare namespace API {
     username: string,
     password: string,
   }
-  enum Roles {
-    Admin = 'admin',
-    User = 'user'
-  }
+
   type CurrentUser = {
     username: string,
     roles: ('user'|'admin')[],
@@ -22,3 +19,5 @@ declare namespace API {
     nation: string,
   }
 }
+
+
