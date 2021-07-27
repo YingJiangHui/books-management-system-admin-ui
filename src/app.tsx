@@ -7,6 +7,7 @@ import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import {getCurrentUser} from "@/services/user";
+import {UseAPIProvider} from '@umijs/use-request';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -129,6 +130,9 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
         ]
       : [],
     menuHeaderRender: false,
+    childrenRender:(dom)=>{
+      return <UseAPIProvider value={{manual: true}}>{dom}</UseAPIProvider>
+    },
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
     ...initialState?.settings,

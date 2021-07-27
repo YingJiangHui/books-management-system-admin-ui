@@ -37,6 +37,12 @@
     ],
   },
   {
+    path: '/book',
+    name: 'book',
+    icon: 'book',
+    component: './Book',
+  },
+  {
     path: '/',
     redirect: '/welcome',
   },
