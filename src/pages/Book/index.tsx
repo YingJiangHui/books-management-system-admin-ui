@@ -1,43 +1,67 @@
 import type {FC} from 'react';
-import {EllipsisOutlined,PlusOutlined} from '@ant-design/icons';
-import {Button,Dropdown,Menu,Popover} from 'antd';
-import { PageContainer } from '@ant-design/pro-layout';
+import {EllipsisOutlined, PlusOutlined} from '@ant-design/icons';
+import {Button, Dropdown, Input, Menu, Popover, Select} from 'antd';
+import {PageContainer} from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
 import useBookLogic from "@/pages/Book/useBookLogic";
-import type {ActionType,ProColumns} from '@ant-design/pro-table';
+import type {ActionType, ProColumns} from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import {Link,request} from 'umi';
-import {useRef} from 'react';
+import {Link, request} from 'umi';
+import React, {useRef} from 'react';
 import {queryGetBooks} from '@/services/book';
+import {useForm} from 'antd/lib/form/Form';
 
 interface Props {
 
 }
 
+const TableInput: React.FC<{ value?: API.Publisher }> = (props) => {
+  return <Input value={props.value?.name} name="publisherId"/>;
+};
+const TableSelect: React.FC<{ value?: API.Category[] }> = (props) => {
+  return (<Select mode="multiple" showArrow defaultValue={props.value?.map(({id})=>id)} options={props.value?.map(({id,name})=>({label:name,value:id}))}/>);
+};
+
 const Book: FC<Props> = (props) => {
-  const {bookList} = useBookLogic({})
+  const {bookList} = useBookLogic({});
+  const [form] = useForm();
   const columns: ProColumns<API.Book>[] = [
-    {dataIndex: 'id',title:'编号'},
-    {dataIndex: 'name',title:'书名', render:(data,record)=><Link to={`/book/${record.id}`}>{data}</Link>},
-    {dataIndex: 'author',title:'作者'},
-    {dataIndex: 'publisher',title:'出版社', render: (data)=> data.name},
-    {dataIndex: 'categories',title:'作品类型', render: (data)=> data.map((item)=>item.name).join('，')},
-    {title:'操作', valueType: 'option',render:( data,record,_, action)=>{
-      const actions = <>
-        <Button type='link'>下架图书</Button>
-        <Button type='link' onClick={()=>{action?.startEditable?.(record.id)}}>修改图书</Button>
-        <Button type='link'>借阅图书</Button>
-      </>
-      return (<>
-        {/*<Popover content={actions} title="操作选项">*/}
-        {/*  <Button type='link'>选项</Button>*/}
-        {/*</Popover>*/}
-        <Button type='link'>下架</Button>
-        <Button type='link' key="editable" onClick={()=>{action?.startEditable?.(record.id)}}>编辑</Button>
-        <Button type='link' key="borrow">借阅</Button>
-      </>)
-      } }
-  ]
+    {dataIndex: 'id', title: '编号', valueType: 'indexBorder'},
+    {dataIndex: 'name', title: '书名', render: (data, record) => <Link to={`/book/${record.id}`}>{data}</Link>},
+    {dataIndex: 'author', title: '作者'},
+    {
+      dataIndex: 'publisher', title: '出版社',
+      render: (data) => {
+        return data.name;
+      },
+      renderFormItem: (data, {isEditable, ...rest}, form) => {
+        return isEditable ? <TableInput/> : <Input/>;
+      },
+    },
+    {
+      dataIndex: 'publicationDate', title: '出版日期', sorter: true,
+      hideInSearch: true, valueType: 'date'
+    },
+    {
+      dataIndex: 'categories', title: '作品类型',
+      render: (data) => data.map((item) => item.name).join('，'),
+      renderFormItem: (data, {isEditable, ...rest}, form) => {
+        return isEditable ? <TableSelect/> : <Input/>;
+      },
+    },
+    {
+      title: '操作', valueType: 'option', render: (data, record, _, action) => {
+        return (<>
+          <Button type="link" key="deletable" onChange={() => {
+          }}>下架</Button>
+          <Button type="link" key="editable" onClick={() => {
+            action?.startEditable?.(record.id);
+          }}>编辑</Button>
+          <Button type="link" key="borrow">借阅</Button>
+        </>);
+      }
+    }
+  ];
   const actionRef = useRef<ActionType>();
   const menu = (
     <Menu>
@@ -47,7 +71,7 @@ const Book: FC<Props> = (props) => {
     </Menu>
   );
 
-  return (  <div
+  return (<div
     style={{
       background: '#F5F7FA',
     }}
@@ -85,8 +109,8 @@ const Book: FC<Props> = (props) => {
               </Menu>
             }
           >
-            <Button key="4" style={{ padding: '0 8px' }}>
-              <EllipsisOutlined />
+            <Button key="4" style={{padding: '0 8px'}}>
+              <EllipsisOutlined/>
             </Button>
           </Dropdown>,
         ],
@@ -98,14 +122,16 @@ const Book: FC<Props> = (props) => {
       }}
     >
       <ProCard direction="column" ghost gutter={[0, 16]}>
-        <ProCard >
+        <ProCard>
           <ProTable<API.Book>
             columns={columns}
             actionRef={actionRef}
             request={async (params = {}, sort, filter) => {
-              return queryGetBooks(params)
+              console.log(params, sort, filter);
+              return queryGetBooks(params);
             }}
             editable={{
+              form,
               type: 'multiple',
             }}
             rowKey="id"
@@ -114,7 +140,11 @@ const Book: FC<Props> = (props) => {
             }}
             form={{
               // 由于配置了 transform，提交的参与与定义的不同这里需要转化一下
+              onFinish:(formData: Record<string, any>)=>{
+                console.log(formData)
+              },
               syncToUrl: (values, type) => {
+                console.log(values)
                 if (type === 'get') {
                   return {
                     ...values,
@@ -125,25 +155,25 @@ const Book: FC<Props> = (props) => {
               },
             }}
             pagination={{
-              pageSize: 5,
+              pageSize: 10,
             }}
             dateFormatter="string"
             headerTitle="高级表格"
             toolBarRender={() => [
-              <Button key="button" icon={<PlusOutlined />} type="primary">
+              <Button key="button" icon={<PlusOutlined/>} type="primary">
                 新建
               </Button>,
               <Dropdown key="menu" overlay={menu}>
                 <Button>
-                  <EllipsisOutlined />
+                  <EllipsisOutlined/>
                 </Button>
               </Dropdown>,
             ]}
           />
         </ProCard>
-        <ProCard gutter={16} ghost style={{ height: 200 }}>
-          <ProCard colSpan={16} />
-          <ProCard colSpan={8} />
+        <ProCard gutter={16} ghost style={{height: 200}}>
+          <ProCard colSpan={16}/>
+          <ProCard colSpan={8}/>
         </ProCard>
       </ProCard>
     </PageContainer>
