@@ -133,6 +133,9 @@ const Book: FC<Props> = (props) => {
             editable={{
               form,
               type: 'multiple',
+              onSave:(id,formData)=>{
+                console.log(id,formData);
+              }
             }}
             rowKey="id"
             search={{
