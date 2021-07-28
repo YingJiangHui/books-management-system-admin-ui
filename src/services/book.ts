@@ -4,7 +4,8 @@ import {request} from "umi";
 export function queryGetBooks(params: API.Book.GetParams) {
   return request<API.Book[]>('/api/books', {
     method: "GET",
-    params
+    params,
+    getResponse:false
   });
 }
 

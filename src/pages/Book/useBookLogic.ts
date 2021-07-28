@@ -10,7 +10,6 @@ export const useBookLogic  = (params: UseBookParams)=>{
   const [bookList,setBookList] = useState<API.Book[]>([])
   const getBooksService = useRequest(queryGetBooks,{
     manual:false,
-    paginated:true,
     onSuccess:(response)=>{
       setBookList(response.content)
     }
