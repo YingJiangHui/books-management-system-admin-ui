@@ -61,10 +61,19 @@ declare namespace API {
     publicationDate?: string;
   }
 
+  type BookBaseParams = {
+    name: string;
+    imagePath?: string;
+    description?: string;
+    author: string;
+    publisher: number;
+    categories: number[];
+  }
+
   declare namespace Book {
     type AddParams = BookField;
 
-    interface UpdateParams extends Partial<BookBaseInfo> {
+    interface UpdateParams extends Partial<BookBaseParams> {
       id: number;
     }
 

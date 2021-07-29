@@ -1,6 +1,8 @@
 import {useRequest} from "@@/plugin-request/request";
 import {queryAddBooks, queryDeleteBooks, queryGetBooks, queryUpdateBooks} from "@/services/book";
 import { useState } from "react";
+import usePublisherLogic from "@/pages/Book/logic/usePublisherLogic";
+import useCategoryLogic from "@/pages/Book/logic/useCategoryLogic";
 
 export interface UseBookParams{
   data: API.Book
@@ -8,12 +10,15 @@ export interface UseBookParams{
 export const useBookLogic  = (params: UseBookParams)=>{
   const {id} = params
   const [bookList,setBookList] = useState<API.Book[]>([])
+  const {getPublisherService,publisherList} = usePublisherLogic()
+  const {getCategoriesService,categoryList} = useCategoryLogic()
   const getBooksService = useRequest(queryGetBooks,{
     manual:false,
     onSuccess:(response)=>{
       setBookList(response.content)
     }
   })
+
   const updateBooksService = useRequest(queryUpdateBooks,{
     manual:true,
     onSuccess:()=>{
@@ -36,7 +41,11 @@ export const useBookLogic  = (params: UseBookParams)=>{
     updateBooksService,
     addBooksService,
     deleteBooksService,
-    bookList
+    getPublisherService,
+    getCategoriesService,
+    bookList,
+    publisherList,
+    categoryList
   }
 }
 

@@ -1,29 +1,41 @@
 import type {FC} from 'react';
 import {EllipsisOutlined, PlusOutlined} from '@ant-design/icons';
-import {Button, Dropdown, Input, Menu,  Select} from 'antd';
+import {Button, Dropdown, Form, Input, Menu, Select} from 'antd';
 import {PageContainer} from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
-import useBookLogic from "@/pages/Book/useBookLogic";
+import useBookLogic from "@/pages/Book/logic/useBookLogic";
 import type {ActionType, ProColumns} from '@ant-design/pro-table';
 import {EditableProTable} from '@ant-design/pro-table';
 import {Link} from 'umi';
 import React, {useRef} from 'react';
-import {queryGetBooks} from '@/services/book';
+import {queryGetBooks, queryUpdateBooks} from '@/services/book';
 import {useForm} from 'antd/lib/form/Form';
 
 interface Props {
 
 }
 
-const TableInput: React.FC<{ value?: API.Publisher }> = (props) => {
-  return <Input value={props.value?.name} name="publisherId"/>;
+
+const TableInput: React.FC<{ value?: API.Publisher, publisherList: API.Publisher[], onChange: (value: API.Publisher) => void }> = (props) => {
+  return (
+    <Select options={props.publisherList.map(({id, name}) => ({label:name,value:id})) } defaultValue={props.value?.id}
+            onChange={(id, object) => {
+              props.onChange({name: object.label, id: object.value});
+            }}>
+    </Select>
+  );
 };
-const TableSelect: React.FC<{ value?: API.Category[] }> = (props) => {
-  return (<Select mode="multiple" showArrow defaultValue={props.value?.map(({id})=>id)} options={props.value?.map(({id,name})=>({label:name,value:id}))}/>);
+const TableSelect: React.FC<{ value?: API.Category[], categoryList: API.Category[], onChange: (value: API.Category[]) => void }> = (props) => {
+  return (<Select mode="multiple"
+                  onChange={(ids, items) => {
+                    props.onChange(items.map((item) => ({...item, name: item.label, id: item.value})));
+                  }}
+                  showArrow defaultValue={props.value?.map(({id}) => id)}
+                  options={props.categoryList?.map(({id, name}) => ({label: name, value: id}))}/>);
 };
 
 const Book: FC<Props> = (props) => {
-  const {bookList} = useBookLogic({});
+  const {bookList, categoryList, publisherList} = useBookLogic({});
   const [form] = useForm();
   const columns: ProColumns<API.Book>[] = [
     {dataIndex: 'id', title: '编号', valueType: 'indexBorder'},
@@ -35,7 +47,7 @@ const Book: FC<Props> = (props) => {
         return data.name;
       },
       renderFormItem: (data, {isEditable, ...rest}, form) => {
-        return isEditable ? <TableInput/> : <Input/>;
+        return isEditable ? <TableInput publisherList={publisherList}/> : <Input/>;
       },
     },
     {
@@ -44,9 +56,9 @@ const Book: FC<Props> = (props) => {
     },
     {
       dataIndex: 'categories', title: '作品类型',
-      render: (data,record) =>record?.categories?.map(category=>category.name).join(',') ,
+      render: (data, record) => record?.categories?.map(category => category.name).join(','),
       renderFormItem: (data, {isEditable, ...rest}, form) => {
-        return isEditable ? <TableSelect/> : <Input/>;
+        return isEditable ? <TableSelect categoryList={categoryList}/> : <Input/>;
       },
     },
     {
@@ -136,13 +148,13 @@ const Book: FC<Props> = (props) => {
             editable={{
               form,
               type: 'multiple',
-              onSave:(id,formData)=>{
-                console.log(id,formData);
+              onSave: (id, formData) => {
+                return queryUpdateBooks({...formData, publisher: formData.publisher.id, categories: formData.categories.map((category) => (category.id))});
               }
             }}
             rowKey="id"
             search={{
-              filterType:'light',
+              filterType: 'light',
               searchText: '搜索',
               labelWidth: 'auto',
             }}
@@ -184,6 +196,7 @@ const Book: FC<Props> = (props) => {
       </ProCard>
     </PageContainer>
   </div>);
-};
+}
+;
 
 export default Book;
