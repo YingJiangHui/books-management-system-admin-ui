@@ -1,12 +1,12 @@
 import type {FC} from 'react';
 import {EllipsisOutlined, PlusOutlined} from '@ant-design/icons';
-import {Button, Dropdown, Input, Menu, Popover, Select} from 'antd';
+import {Button, Dropdown, Input, Menu,  Select} from 'antd';
 import {PageContainer} from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
 import useBookLogic from "@/pages/Book/useBookLogic";
 import type {ActionType, ProColumns} from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
-import {Link, request} from 'umi';
+import {EditableProTable} from '@ant-design/pro-table';
+import {Link} from 'umi';
 import React, {useRef} from 'react';
 import {queryGetBooks} from '@/services/book';
 import {useForm} from 'antd/lib/form/Form';
@@ -44,7 +44,7 @@ const Book: FC<Props> = (props) => {
     },
     {
       dataIndex: 'categories', title: '作品类型',
-      render: (data) => data.map((item) => item.name).join('，'),
+      render: (data,record) =>record?.categories?.map(category=>category.name).join(',') ,
       renderFormItem: (data, {isEditable, ...rest}, form) => {
         return isEditable ? <TableSelect/> : <Input/>;
       },
@@ -123,7 +123,10 @@ const Book: FC<Props> = (props) => {
     >
       <ProCard direction="column" ghost gutter={[0, 16]}>
         <ProCard>
-          <ProTable<API.Book>
+          <EditableProTable<API.Book>
+            recordCreatorProps={{
+              position: 'top',
+            }}
             columns={columns}
             actionRef={actionRef}
             request={async (params = {}, sort, filter) => {
@@ -139,15 +142,15 @@ const Book: FC<Props> = (props) => {
             }}
             rowKey="id"
             search={{
+              filterType:'light',
+              searchText: '搜索',
               labelWidth: 'auto',
             }}
             form={{
               // 由于配置了 transform，提交的参与与定义的不同这里需要转化一下
-              onFinish:(formData: Record<string, any>)=>{
-                console.log(formData)
-              },
+
               syncToUrl: (values, type) => {
-                console.log(values)
+
                 if (type === 'get') {
                   return {
                     ...values,
