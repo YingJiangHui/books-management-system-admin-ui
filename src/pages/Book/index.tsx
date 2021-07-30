@@ -1,6 +1,6 @@
 import type {FC} from 'react';
 import {EllipsisOutlined,PlusOutlined} from '@ant-design/icons';
-import {Button,Dropdown,Form,Input,Menu,Select} from 'antd';
+import {Button,Dropdown,Form,Input,Menu,Select,SelectProps, Tag} from 'antd';
 import {PageContainer} from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
 import useBookLogic from '@/logic/useBookLogic';
@@ -10,32 +10,36 @@ import {Link} from 'umi';
 import React,{useRef} from 'react';
 import {queryAddBooks,queryGetBooks,queryUpdateBooks} from '@/services/book';
 import {useForm} from 'antd/lib/form/Form';
+import {OptionsType} from '@ant-design/pro-table/es/components/ToolBar';
+import {bookStatus} from '@/constant/book';
 
 interface Props {
 
 }
-
-
-const TableInput: React.FC<{value?: API.Publisher,publisherList: API.Publisher[],onChange: (value: API.Publisher) => void}> = (props) => {
+type BookStatus = 'PENDING'|'BORROWED'|'RESERVED'
+const TableInput: React.FC<{value?: API.Publisher,publisherList: API.Publisher[],onChange?: (value: API.Publisher) => void}> = (props) => {
   return (
     <Select options={props.publisherList.map(({id,name}) => ({label: name,value: id}))} defaultValue={props.value?.id}
             onChange={(id,object) => {
-              props.onChange({name: object.label,id: object.value});
+              props.onChange?.({name: object.label,id: object.value});
             }}>
     </Select>
   );
 };
-const TableSelect: React.FC<{value?: API.Category[],categoryList: API.Category[],onChange: (value: API.Category[]) => void}> = (props) => {
-  return (<Select mode="multiple"
-                  onChange={(ids,items) => {
-                    props.onChange(items.map((item) => ({...item,name: item.label,id: item.value})));
+const TableMultipleSelect: React.FC<{value?: API.Category[]|BookStatus,nativeProps?: SelectProps<number>,options: OptionsType,onChange?: (value: API.Category[]|BookStatus) => void}> = (props) => {
+  const defaultValue = Array.isArray(props.value)? props.value?.map(({id}) => id) : props.value
+  return (<Select
+                  {...props.nativeProps}
+                  onChange={(ids,_items) => {
+                    const items = Array.isArray(_items)?_items.map((item) => ({...item,name: item.label,id: item.value})):_items
+                    props.onChange?.(items);
                   }}
-                  showArrow defaultValue={props.value?.map(({id}) => id)}
-                  options={props.categoryList?.map(({id,name}) => ({label: name,value: id}))}/>);
+                  showArrow
+                  defaultValue={defaultValue}
+                  options={props?.options}/>);
 };
-
 const Book: FC<Props> = (props) => {
-    const {bookList,categoryList,publisherList} = useBookLogic({});
+    const {categoryList,publisherList} = useBookLogic({});
     const [form] = useForm();
     const columns: ProColumns<API.Book>[] = [
       {dataIndex: 'id',title: '编号'},
@@ -58,11 +62,18 @@ const Book: FC<Props> = (props) => {
         dataIndex: 'categories',title: '作品类型',
         render: (data,record) => record?.categories?.map(category => category.name).join(','),
         renderFormItem: (data,{isEditable,...rest},form) => {
-          return isEditable ? <TableSelect categoryList={categoryList}/> : <Input/>;
+          return isEditable ? <TableMultipleSelect nativeProps={{mode: 'multiple'}} options={categoryList?.map(({id,name}) => ({label: name,value: id}))}/> : <Input/>;
         }
       },
       {
-        title:'状态'
+        title:'状态',
+        dataIndex: 'status',
+        renderFormItem: (data,{isEditable,...rest},form) => {
+          return isEditable ? <TableMultipleSelect options={[{value:'RESERVED',label:'已预约'},{value:'BORROWED',label:'已借取'},{value:'PENDING',label:'待借取'}]}/> : <Input/>;
+        },
+        render:(text)=>{
+          return  <Tag color="#2db7f5">{bookStatus['PENDING']}</Tag>
+        }
       },
       {
         title: '操作',valueType: 'option',render: (data,record,_,action) => {
