@@ -77,7 +77,7 @@ declare namespace API {
     }
 
     interface DeleteParams {
-      id: number;
+      id: number|string;
     }
 
     interface GetParams {

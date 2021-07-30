@@ -9,10 +9,10 @@ export function queryGetBooks(params: API.Book.GetParams={}) {
   });
 }
 
-export function queryDeleteBooks(params: API.Book.DeleteParams[]) {
-  return request<API.Book[]>(`/api/books`, {
+export function queryDeleteBook(params: API.Book.DeleteParams) {
+  return request<API.Book>(`/api/books/${params.id}`, {
     method: "DELETE",
-    params
+    getResponse:true
   });
 }
 

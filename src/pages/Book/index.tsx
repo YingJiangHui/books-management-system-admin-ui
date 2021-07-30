@@ -1,6 +1,6 @@
 import type {FC} from 'react';
 import {EllipsisOutlined,PlusOutlined} from '@ant-design/icons';
-import {Button,Dropdown,Form,Input,Menu,Select,SelectProps, Tag} from 'antd';
+import {Button,Dropdown,Form,Input,Menu,message,Select,SelectProps, Tag} from 'antd';
 import {PageContainer} from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
 import useBookLogic from '@/logic/useBookLogic';
@@ -8,7 +8,7 @@ import type {ActionType,ProColumns} from '@ant-design/pro-table';
 import {EditableProTable} from '@ant-design/pro-table';
 import {Link} from 'umi';
 import React,{useRef} from 'react';
-import {queryAddBooks,queryGetBooks,queryUpdateBooks} from '@/services/book';
+import {queryAddBooks, queryDeleteBook, queryGetBooks, queryUpdateBooks} from '@/services/book';
 import {useForm} from 'antd/lib/form/Form';
 import {OptionsType} from '@ant-design/pro-table/es/components/ToolBar';
 import {bookStatus} from '@/constant/book';
@@ -170,15 +170,26 @@ const Book: FC<Props> = (props) => {
                 form,
                 type: 'multiple',
                 onChange: console.log,
+                onDelete: async (id,record)=>{
+                  const response = await queryDeleteBook({id})
+                  if(response){
+                    message.success('删除成功')
+                  }
+                  return response
+                },
                 onSave: (id,formData,formDataCopy,indexs) => {
                   console.log("id,formData,formDataCopy,indexs");
                   console.log(id,formData,formDataCopy,indexs);
                   if (indexs) {
                     // 如果存在索引信息，说明是创建
-                    return queryAddBooks({...formData,publisher: formData.publisher.id,categories: formData.categories.map((category) => (category.id))});
+                    const response = queryAddBooks({...formData,publisher: formData.publisher.id,categories: formData.categories.map((category) => (category.id))});
+                    message.success('添加成功')
+                    return response
                   } else {
                     // 不存在则是更新
-                    return queryUpdateBooks({...formData,publisher: formData.publisher.id,categories: formData.categories.map((category) => (category.id))});
+                    const response= queryUpdateBooks({...formData,publisher: formData.publisher.id,categories: formData.categories.map((category) => (category.id))});
+                    message.success('更新成功')
+                    return response
                   }
                 }
               }}

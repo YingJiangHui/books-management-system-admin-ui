@@ -1,5 +1,5 @@
 import {useRequest} from "@@/plugin-request/request";
-import {queryAddBooks, queryDeleteBooks, queryGetBooks, queryUpdateBooks} from "@/services/book";
+import {queryAddBooks, queryDeleteBook, queryGetBooks, queryUpdateBooks} from "@/services/book";
 import { useState } from "react";
 import usePublisherLogic from "@/logic/usePublisherLogic";
 import useCategoryLogic from "@/logic/useCategoryLogic";
@@ -29,7 +29,7 @@ export const useBookLogic  = (params: UseBookParams)=>{
     onSuccess:()=>{
     }
   })
-  const deleteBooksService = useRequest(queryDeleteBooks,{
+  const deleteBooksService = useRequest(queryDeleteBook,{
     manual:true,
     onSuccess:()=>{
 

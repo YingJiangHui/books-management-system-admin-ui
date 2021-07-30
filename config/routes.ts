@@ -56,6 +56,12 @@
     component: './BookView',
   },
   {
+    path: '/Statistics',
+    name: 'statistics',
+    icon: 'dotChart',
+    component: './Statistics',
+  },
+  {
     path: '/',
     redirect: '/welcome',
   },
