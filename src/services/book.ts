@@ -19,6 +19,9 @@ export function queryDeleteBooks(params: API.Book.DeleteParams[]) {
 export function queryUpdateBooks(data: API.Book.UpdateParams) {
   return request<API.Book>(`/api/books/${data.id}`, {
     method: "PATCH",
+    headers: {
+      'Content-Type': 'application/json',
+    },
     data
   });
 }

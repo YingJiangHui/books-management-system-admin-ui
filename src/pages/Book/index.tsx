@@ -3,7 +3,7 @@ import {EllipsisOutlined, PlusOutlined} from '@ant-design/icons';
 import {Button, Dropdown, Form, Input, Menu, Select} from 'antd';
 import {PageContainer} from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
-import useBookLogic from "@/pages/Book/logic/useBookLogic";
+import useBookLogic from "@/logic/useBookLogic";
 import type {ActionType, ProColumns} from '@ant-design/pro-table';
 import {EditableProTable} from '@ant-design/pro-table';
 import {Link} from 'umi';

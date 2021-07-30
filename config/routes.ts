@@ -41,6 +41,13 @@
     name: 'book',
     icon: 'book',
     component: './Book',
+    access: 'canAdmin'
+  },
+  {
+    path: '/bookView',
+    name: 'bookView',
+    icon: 'book',
+    component: './BookView',
   },
   {
     path: '/',
