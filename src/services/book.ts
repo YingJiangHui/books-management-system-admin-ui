@@ -1,7 +1,7 @@
 import {request} from "umi";
 
 
-export function queryGetBooks(params: API.Book.GetParams) {
+export function queryGetBooks(params: API.Book.GetParams={}) {
   return request<API.Book[]>('/api/books', {
     method: "GET",
     params,
@@ -26,8 +26,8 @@ export function queryUpdateBooks(data: API.Book.UpdateParams) {
   });
 }
 
-export function queryAddBooks(data: API.Book.AddParams[]) {
-  return request<API.Book[]>(`/api/books`, {
+export function queryAddBooks(data: API.Book.AddParams) {
+  return request<API.Book>(`/api/books`, {
     method: "POST",
     data
   });

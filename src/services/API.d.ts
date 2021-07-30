@@ -71,8 +71,7 @@ declare namespace API {
   }
 
   declare namespace Book {
-    type AddParams = BookField;
-
+    type AddParams = Partial<BookBaseParams>
     interface UpdateParams extends Partial<BookBaseParams> {
       id: number;
     }

@@ -13,7 +13,7 @@ export const useBookLogic  = (params: UseBookParams)=>{
   const {getPublisherService,publisherList} = usePublisherLogic()
   const {getCategoriesService,categoryList} = useCategoryLogic()
   const getBooksService = useRequest(queryGetBooks,{
-    manual:false,
+    manual: true,
     onSuccess:(response)=>{
       setBookList(response)
     }
