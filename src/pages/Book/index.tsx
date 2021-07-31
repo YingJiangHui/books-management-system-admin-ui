@@ -3,7 +3,7 @@ import {EllipsisOutlined,PlusOutlined} from '@ant-design/icons';
 import {Button,Dropdown,Form,Input,Menu,message,Select,SelectProps, Tag} from 'antd';
 import {PageContainer} from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
-import useBookLogic from '@/logic/useBookLogic';
+import useBook from '@/logic/useBook';
 import type {ActionType,ProColumns} from '@ant-design/pro-table';
 import {EditableProTable} from '@ant-design/pro-table';
 import {Link} from 'umi';
@@ -12,6 +12,7 @@ import {queryAddBooks, queryDeleteBook, queryGetBooks, queryUpdateBooks} from '@
 import {useForm} from 'antd/lib/form/Form';
 import {OptionsType} from '@ant-design/pro-table/es/components/ToolBar';
 import {bookStatus} from '@/constant/book';
+import useBookLogic from "@/pages/Book/useBookLogic";
 
 interface Props {
 
@@ -39,7 +40,7 @@ const TableMultipleSelect: React.FC<{value?: API.Category[]|BookStatus,nativePro
                   options={props?.options}/>);
 };
 const Book: FC<Props> = (props) => {
-    const {categoryList,publisherList} = useBookLogic({});
+    const {categoryList,publisherList} = useBookLogic()
     const [form] = useForm();
     const columns: ProColumns<API.Book>[] = [
       {dataIndex: 'id',title: '编号'},
@@ -164,7 +165,9 @@ const Book: FC<Props> = (props) => {
               request={async(params = {},sort,filter) => {
                 console.log("params,sort,filter");
                 console.log(params,sort,filter);
-                return queryGetBooks(params);
+                const a= await queryGetBooks(params)
+                console.log(a)
+                return  queryGetBooks(params);
               }}
               editable={{
                 form,
