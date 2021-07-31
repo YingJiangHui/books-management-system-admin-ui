@@ -5,10 +5,8 @@ import usePublisherLogic from "@/logic/usePublisherLogic";
 import useCategoryLogic from "@/logic/useCategoryLogic";
 
 export interface UseBookParams{
-  data: API.Book
 }
-export const useBookLogic  = (params: UseBookParams)=>{
-  const {id} = params
+export const useBook  = (params: UseBookParams)=>{
   const [bookList,setBookList] = useState<API.Book[]>([])
   const {getPublisherService,publisherList} = usePublisherLogic()
   const {getCategoriesService,categoryList} = useCategoryLogic()
@@ -49,4 +47,4 @@ export const useBookLogic  = (params: UseBookParams)=>{
   }
 }
 
-export default useBookLogic
+export default useBook

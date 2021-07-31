@@ -70,6 +70,46 @@ declare namespace API {
     categories: number[];
   }
 
+  interface BorrowBook {
+    id: number
+    userId: string
+    bookId: string
+    status: BorrowBook.status;
+    endDate: string;
+    startedDate: string;
+  }
+
+  declare namespace BorrowBook{
+    interface BaseParams {
+      status: status;
+      endDate: string;
+      startedDate: string;
+    }
+
+    type status = 'APPLIED'|'BORROWED'|'RETURNED'|'RESERVED'|'LOST'
+
+    type DeletePrams = {
+      id: number
+    }
+
+    type GetsParams = {
+      bookId?: number,
+      status?: status
+    }
+    type GetParams = {
+      id: number
+    }
+
+    interface CreateParams extends BaseParams{
+      status?: status
+      bookId: string
+    }
+
+    interface UpdateParams extends Partial<BaseParams>{
+      id: number
+    }
+  }
+
   declare namespace Book {
     type AddParams = Partial<BookBaseParams>
     interface UpdateParams extends Partial<BookBaseParams> {
