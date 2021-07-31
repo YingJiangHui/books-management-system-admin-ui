@@ -43,10 +43,10 @@
     ],
   },
   {
-    path: '/book',
-    name: 'book',
+    path: '/book-management',
+    name: 'bookManagement',
     icon: 'book',
-    component: './Book',
+    component: './BookManagement',
     access: 'canAdmin'
   },
   {

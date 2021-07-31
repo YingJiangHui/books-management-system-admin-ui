@@ -12,7 +12,7 @@ import {queryAddBooks, queryDeleteBook, queryGetBooks, queryUpdateBooks} from '@
 import {useForm} from 'antd/lib/form/Form';
 import {OptionsType} from '@ant-design/pro-table/es/components/ToolBar';
 import {bookStatus} from '@/constant/book';
-import useBookLogic from "@/pages/Book/useBookLogic";
+import useBookLogic from "@/pages/BookManagement/useBookLogic";
 
 interface Props {
 
@@ -39,7 +39,7 @@ const TableMultipleSelect: React.FC<{value?: API.Category[]|BookStatus,nativePro
                   defaultValue={defaultValue}
                   options={props?.options}/>);
 };
-const Book: FC<Props> = (props) => {
+const BookManagement: FC<Props> = (props) => {
     const {categoryList,publisherList} = useBookLogic()
     const [form] = useForm();
     const columns: ProColumns<API.Book>[] = [
@@ -241,4 +241,4 @@ const Book: FC<Props> = (props) => {
   }
 ;
 
-export default Book;
+export default BookManagement;

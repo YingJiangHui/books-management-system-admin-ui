@@ -102,7 +102,7 @@ declare namespace API {
 
     interface CreateParams extends BaseParams{
       status?: status
-      bookId: string
+      bookId: number
     }
 
     interface UpdateParams extends Partial<BaseParams>{

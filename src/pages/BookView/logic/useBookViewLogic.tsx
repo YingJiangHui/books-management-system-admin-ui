@@ -1,22 +1,23 @@
 import useBook from '@/logic/useBook';
-import {useEffect, useMemo} from 'react';
-import {Button, Space, Tag} from 'antd';
+import {useEffect, useMemo, useState} from 'react';
+import {Button, Modal, Space, Tag} from 'antd';
 import {Link} from '@umijs/preset-dumi/lib/theme';
+import useBorrowBook from "@/logic/useBorrowBook";
+import BorrowBookFormModal from "@/pages/BookView/component/BorrowBookFormModal";
 
 interface UseBookViewLogic {
 }
 
 const useBookViewLogic = (params:UseBookViewLogic) => {
-  const {getBooksService, bookList} = useBook({});
+  const bookService = useBook({});
+  const borrowBookService = useBorrowBook({})
   useEffect(() => {
-    getBooksService.run();
+    bookService.getBooksService.run();
   }, []);
-
-  const bookSourceData = useMemo(() => bookList.map((book) => ({
+  const bookSourceData = useMemo(() => bookService.bookList.map((book) => ({
     title: <Link to={'/'}>{book.name}</Link>,
     subTitle: <>{book.categories.map((category) => (<Tag color="#5BD8A6">{category.name}</Tag>))}</>,
-    actions: [<Button type="link" onClick={() => {
-    }}>借阅</Button>, <Button type="link">预约</Button>, <Button type="link">还书</Button>, <Button type="link">续借</Button>],
+    actions: [<BorrowBookFormModal trigger={<Button type="link" >借阅</Button>}/>, <Button type="link">预约</Button>],
     avatar: 'https://gw.alipayobjects.com/zos/antfincdn/UCSiy1j6jx/xingzhuang.svg',
     content: (
       <div
@@ -35,10 +36,10 @@ const useBookViewLogic = (params:UseBookViewLogic) => {
           </Space>
         </div>
       </div>),
-  })), [bookList]);
+  })), [bookService.bookList]);
 
 
-  return {getBooksService, bookList, bookSourceData};
+  return {bookService, bookSourceData,borrowBookService};
 };
 
 export default useBookViewLogic;

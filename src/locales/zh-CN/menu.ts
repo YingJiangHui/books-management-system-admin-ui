@@ -1,7 +1,7 @@
 export default {
   'menu.bookView':'图书列表',
   'menu.statistics':'统计',
-  'menu.book':'图书管理',
+  'menu.bookManagement':'图书管理',
   'menu.welcome': '欢迎',
   'menu.more-blocks': '更多区块',
   'menu.home': '首页',
