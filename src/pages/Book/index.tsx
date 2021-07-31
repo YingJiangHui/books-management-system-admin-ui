@@ -165,8 +165,6 @@ const Book: FC<Props> = (props) => {
               request={async(params = {},sort,filter) => {
                 console.log("params,sort,filter");
                 console.log(params,sort,filter);
-                const a= await queryGetBooks(params)
-                console.log(a)
                 return  queryGetBooks(params);
               }}
               editable={{
