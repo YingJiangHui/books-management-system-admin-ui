@@ -80,6 +80,8 @@ declare namespace API {
   }
 
   declare namespace BorrowBook{
+    type OccupiedTime = {startedDate: string,endDate:string}
+
     interface BaseParams {
       status: status;
       endDate: string;

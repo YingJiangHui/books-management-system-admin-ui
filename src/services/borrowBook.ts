@@ -40,7 +40,7 @@ export function queryUpdateBorrowBooks(params: API.BorrowBook.UpdateParams) {
 
 export function queryOccupiedTimeList(params: API.BorrowBook.GetParams) {
   const {id} = params
-  return request<API.BorrowBook>(`/api/borrow-books/${id}/occupied-time`, {
+  return request<API.BorrowBook.OccupiedTime[]>(`/api/borrow-books/${id}/occupied-time`, {
     method: "GET",
     getResponse:true
   });

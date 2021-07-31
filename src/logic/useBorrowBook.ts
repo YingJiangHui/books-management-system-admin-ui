@@ -21,7 +21,7 @@ interface UseBorrowBook {
 export const useBorrowBook = (params: UseBorrowBook) => {
   const {onGetBorrowBookListServiceSuccess, onCreateBorrowBookServiceSuccess, onGetOccupiedTimeListSuccess, onDeleteBorrowBookServiceSuccess, onGetBorrowBookServiceSuccess, onUpdateBorrowBookServiceSuccess} = params;
   const [borrowBookList, setBorrowBookList] = useState<API.BorrowBook[]>();
-
+  const [occupiedTimeList, setOccupiedTimeList] = useState<API.BorrowBook.OccupiedTime[]>([]);
   const getListService = useRequest(queryGetBorrowBooks, {
     manual: true,
     onSuccess: (response) => {
@@ -57,10 +57,11 @@ export const useBorrowBook = (params: UseBorrowBook) => {
   });
   const getOccupiedTimeListService = useRequest(queryOccupiedTimeList, {
     manual: true,
-    onSuccess: () => {
+    onSuccess: (response) => {
+      setOccupiedTimeList(response)
       onGetOccupiedTimeListSuccess?.();
     }
   });
-  return {getService, getListService, createService, updateService, deleteService, borrowBookList, getOccupiedTimeListService} as const;
+  return {getService, getListService, createService, updateService, deleteService, borrowBookList, getOccupiedTimeListService,occupiedTimeList} as const;
 };
 export default useBorrowBook;
