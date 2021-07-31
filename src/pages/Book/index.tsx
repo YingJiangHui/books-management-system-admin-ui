@@ -177,17 +177,17 @@ const Book: FC<Props> = (props) => {
                   }
                   return response
                 },
-                onSave: (id,formData,formDataCopy,indexs) => {
+                onSave: async (id,formData,formDataCopy,indexs) => {
                   console.log("id,formData,formDataCopy,indexs");
                   console.log(id,formData,formDataCopy,indexs);
                   if (indexs) {
                     // 如果存在索引信息，说明是创建
-                    const response = queryAddBooks({...formData,publisher: formData.publisher.id,categories: formData.categories.map((category) => (category.id))});
+                    const response = await queryAddBooks({...formData,publisher: formData.publisher.id,categories: formData.categories.map((category) => (category.id))});
                     message.success('添加成功')
                     return response
                   } else {
                     // 不存在则是更新
-                    const response= queryUpdateBooks({...formData,publisher: formData.publisher.id,categories: formData.categories.map((category) => (category.id))});
+                    const response= await  queryUpdateBooks({...formData,publisher: formData.publisher.id,categories: formData.categories.map((category) => (category.id))});
                     message.success('更新成功')
                     return response
                   }
