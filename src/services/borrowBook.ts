@@ -45,3 +45,11 @@ export function queryOccupiedTimeList(params: API.BorrowBook.GetParams) {
     getResponse:true
   });
 }
+
+export function queryGetBorrowBooksForUser(params: API.BorrowBook.GetsParams={}) {
+  return request<API.BorrowBook[]>('/api/borrow-books/user', {
+    method: "GET",
+    params,
+    getResponse:true
+  });
+}

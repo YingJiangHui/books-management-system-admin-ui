@@ -3,7 +3,7 @@ import {useEffect, useMemo, useState} from 'react';
 import {Button, Modal, Space, Tag} from 'antd';
 import {Link} from '@umijs/preset-dumi/lib/theme';
 import useBorrowBook from "@/models/useBorrowBook";
-import BorrowBookFormModal, {BorrowBookFormFieldMap} from "@/pages/BookView/component/BorrowBookFormModal";
+import BorrowDateFormModal, {BorrowBookFormFieldMap} from "@/pages/BookView/component/BorrowDateFormModal";
 import {message} from 'antd';
 
 interface UseBookViewLogic {
@@ -26,7 +26,7 @@ const useBookViewLogic = (params: UseBookViewLogic) => {
   const bookSourceData = bookService.bookList.map((book) => ({
     title: <Link to={'/'}>{book.name}</Link>,
     subTitle: <>{book.categories.map((category) => (<Tag key={category.id} color="#5BD8A6">{category.name}</Tag>))}</>,
-    actions: [<BorrowBookFormModal onFinish={onFinish.bind(null, book.id)}
+    actions: [<BorrowDateFormModal onFinish={onFinish.bind(null, book.id)}
                                    occupiedTimeList={borrowBookService.occupiedTimeList}
                                    trigger={<Button type="link" onClick={() => {
                                      borrowBookService.getOccupiedTimeListService.run({id: book.id});

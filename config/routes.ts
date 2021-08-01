@@ -68,6 +68,12 @@
     component: './BorrowBook',
   },
   {
+    path: '/reader-borrowed',
+    name: 'readerBorrowed',
+    icon: 'read',
+    component: './ReaderBorrowed',
+  },
+  {
     path: '/',
     redirect: '/welcome',
   },

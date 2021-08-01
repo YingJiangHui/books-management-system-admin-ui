@@ -85,12 +85,12 @@ declare namespace API {
     type OccupiedTime = { startedDate: string, endDate: string }
 
     interface BaseParams {
-      status: status;
-      endDate: string;
-      startedDate: string;
+      status?: status;
+      endDate?: string;
+      startedDate?: string;
     }
 
-    type status = 'APPLIED' | 'BORROWED' | 'RETURNED' | 'RESERVED' | 'LOST' | 'REFUSE'
+    type status = 'APPLIED' | 'BORROWED' | 'RETURNED' | 'RESERVED' | 'LOST' | 'REFUSE' | 'CANCELED' | 'RENEWAL'
 
     type DeletePrams = {
       id: number
@@ -105,8 +105,9 @@ declare namespace API {
     }
 
     interface CreateParams extends BaseParams {
-      status?: status
       bookId: number
+      endDate: string;
+      startedDate: string;
     }
 
     interface UpdateParams extends Partial<BaseParams> {
