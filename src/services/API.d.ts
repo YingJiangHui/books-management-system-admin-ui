@@ -74,7 +74,8 @@ declare namespace API {
   interface BorrowBook {
     id: number
     userId: string
-    bookId: string
+    book: Book
+    user: CurrentUser
     status: BorrowBook.status;
     endDate: string;
     startedDate: string;

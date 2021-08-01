@@ -1,4 +1,4 @@
-import useBook from "@/logic/useBook";
+import useBook from "@/models/useBook";
 
 export const useBookLogic = ()=>{
   const bookService = useBook({})

@@ -1,8 +1,8 @@
 import {useRequest} from "@@/plugin-request/request";
 import {queryAddBooks, queryDeleteBook, queryGetBooks, queryUpdateBooks} from "@/services/book";
 import { useState } from "react";
-import usePublisherLogic from "@/logic/usePublisherLogic";
-import useCategoryLogic from "@/logic/useCategoryLogic";
+import usePublisherLogic from "@/models/usePublisherLogic";
+import useCategoryLogic from "@/models/useCategoryLogic";
 
 export interface UseBookParams{
 }

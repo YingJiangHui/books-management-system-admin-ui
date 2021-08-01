@@ -56,10 +56,16 @@
     component: './BookView',
   },
   {
-    path: '/Statistics',
+    path: '/statistics',
     name: 'statistics',
     icon: 'dotChart',
     component: './Statistics',
+  },
+  {
+    path: '/borrow-book',
+    name: 'borrowBook',
+    icon: 'read',
+    component: './BorrowBook',
   },
   {
     path: '/',

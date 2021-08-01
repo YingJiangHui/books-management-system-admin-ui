@@ -1,4 +1,5 @@
 export default {
+  'menu.borrowBook':'借阅管理',
   'menu.bookView':'图书列表',
   'menu.statistics':'统计',
   'menu.bookManagement':'图书管理',

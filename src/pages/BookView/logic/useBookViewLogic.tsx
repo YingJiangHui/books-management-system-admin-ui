@@ -1,8 +1,8 @@
-import useBook from '@/logic/useBook';
+import useBook from '@/models/useBook';
 import {useEffect, useMemo, useState} from 'react';
 import {Button, Modal, Space, Tag} from 'antd';
 import {Link} from '@umijs/preset-dumi/lib/theme';
-import useBorrowBook from "@/logic/useBorrowBook";
+import useBorrowBook from "@/models/useBorrowBook";
 import BorrowBookFormModal, {BorrowBookFormFieldMap} from "@/pages/BookView/component/BorrowBookFormModal";
 import {message} from 'antd';
 
