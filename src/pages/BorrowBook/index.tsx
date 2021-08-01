@@ -53,7 +53,12 @@ const BorrowBook: FC<Props> = () => {
       {
         title: '操作',valueType: 'option',render: (data,record,_,action) => {
           return (<>
-            {['APPLIED','RESERVED'].indexOf(record.status)!==-1&&<Button type="link" key="borrow" onClick={()=>{borrowBookService.updateService.run({id:record.id,status:'BORROWED'})}}>审核通过</Button>}
+            {['APPLIED','RESERVED'].indexOf(record.status)!==-1&&
+            (<>
+              <Button type="link" onClick={()=>{borrowBookService.updateService.run({id:record.id,status:'BORROWED'})}}>通过请求</Button>
+              <Button type='link' onClick={()=>{borrowBookService.updateService.run({id:record.id,status:"REFUSE"})}}>拒绝借阅</Button>
+            </>)}
+
           </>);
         }
       }

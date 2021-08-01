@@ -90,7 +90,7 @@ declare namespace API {
       startedDate: string;
     }
 
-    type status = 'APPLIED' | 'BORROWED' | 'RETURNED' | 'RESERVED' | 'LOST'
+    type status = 'APPLIED' | 'BORROWED' | 'RETURNED' | 'RESERVED' | 'LOST' | 'REFUSE'
 
     type DeletePrams = {
       id: number

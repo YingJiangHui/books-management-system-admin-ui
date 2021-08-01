@@ -2,7 +2,7 @@ export const bookStatusToTextMap = {
   APPLIED: '已申请',
   RESERVED: '已预约',
   BORROWED: '已借取',
-  REFUSE: '以拒绝',
+  REFUSE: '已拒绝',
   LOST: '遗失',
 };
 export const bookStatusToStyleMap = {
