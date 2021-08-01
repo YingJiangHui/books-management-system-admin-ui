@@ -107,7 +107,7 @@ declare namespace API {
     interface CreateParams extends BaseParams {
       bookId: number
       endDate: string;
-      startedDate: string;
+      startedDate?: string;
     }
 
     interface UpdateParams extends Partial<BaseParams> {

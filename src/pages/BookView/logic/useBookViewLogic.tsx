@@ -3,7 +3,7 @@ import {useEffect, useMemo, useState} from 'react';
 import {Button, Modal, Space, Tag} from 'antd';
 import {Link} from '@umijs/preset-dumi/lib/theme';
 import useBorrowBook from "@/models/useBorrowBook";
-import BorrowDateFormModal, {BorrowBookFormFieldMap} from "@/pages/BookView/component/BorrowDateFormModal";
+import BorrowDateFormModal, {BorrowBookFormFieldMap} from "@/components/DateFormModal";
 import {message} from 'antd';
 
 interface UseBookViewLogic {
@@ -19,18 +19,29 @@ const useBookViewLogic = (params: UseBookViewLogic) => {
   useEffect(() => {
     bookService.getBooksService.run();
   }, []);
-  const onFinish = async (bookId: number, formDate: BorrowBookFormFieldMap) => {
-    const {occupiedTime} = formDate;
-    await borrowBookService.createService.run({bookId, startedDate: occupiedTime[0], endDate: occupiedTime[1], status: 'APPLIED'});
+  const onBorrowBookFormFinish = async (bookId: number, formDate: BorrowBookFormFieldMap) => {
+    if (formDate.endDate)
+      await borrowBookService.createService.run({endDate: formDate.endDate, bookId, status: 'APPLIED'});
+  };
+  const onReservedBookFormFinish = async (bookId: number, formDate: BorrowBookFormFieldMap) => {
+    if (formDate.rangeDate)
+      await borrowBookService.createService.run({startedDate: formDate.rangeDate[0], endDate: formDate.rangeDate[1], bookId, status: 'RESERVED'});
   };
   const bookSourceData = bookService.bookList.map((book) => ({
     title: <Link to={'/'}>{book.name}</Link>,
     subTitle: <>{book.categories.map((category) => (<Tag key={category.id} color="#5BD8A6">{category.name}</Tag>))}</>,
-    actions: [<BorrowDateFormModal onFinish={onFinish.bind(null, book.id)}
-                                   occupiedTimeList={borrowBookService.occupiedTimeList}
-                                   trigger={<Button type="link" onClick={() => {
-                                     borrowBookService.getOccupiedTimeListService.run({id: book.id});
-                                   }}>申请借阅</Button>}/>, <Button type="link">预约</Button>],
+    actions: [
+      <BorrowDateFormModal onFinish={onBorrowBookFormFinish.bind(null, book.id)}
+                           occupiedTimeList={borrowBookService.occupiedTimeList}
+                           trigger={<Button type="link" onClick={() => {
+                             borrowBookService.getOccupiedTimeListService.run({id: book.id});
+                           }}>申请借阅</Button>}/>,
+      <BorrowDateFormModal isRange={true} onFinish={onReservedBookFormFinish.bind(null, book.id)}
+                           occupiedTimeList={borrowBookService.occupiedTimeList}
+                           trigger={<Button type="link" onClick={() => {
+                             borrowBookService.getOccupiedTimeListService.run({id: book.id});
+                           }}>预约</Button>}/>
+    ],
     avatar: 'https://gw.alipayobjects.com/zos/antfincdn/UCSiy1j6jx/xingzhuang.svg',
     content: (
       <div

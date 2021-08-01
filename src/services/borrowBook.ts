@@ -15,9 +15,10 @@ export function queryGetBorrowBook(params: API.BorrowBook.GetParams) {
 }
 
 export function queryCreateBorrowBooks(params: API.BorrowBook.CreateParams) {
+  const startedDate = params.startedDate?params.startedDate: new Date().toISOString()
   return request<API.BorrowBook>('/api/borrow-books', {
     method: "POST",
-    data: params,
+    data: {...params,startedDate},
     getResponse:true
   });
 }
@@ -31,9 +32,10 @@ export function queryDeleteBorrowBooks(params: API.BorrowBook.DeletePrams) {
 
 export function queryUpdateBorrowBooks(params: API.BorrowBook.UpdateParams) {
   const {id,...data} = params
+  const startedDate = params.startedDate?params.startedDate: new Date().toISOString()
   return request<API.BorrowBook>(`/api/borrow-books/${id}`, {
     method: "PATCH",
-    data,
+    data:{...data,startedDate},
     getResponse:true
   });
 }

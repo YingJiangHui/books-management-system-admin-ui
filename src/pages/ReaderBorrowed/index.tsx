@@ -9,7 +9,7 @@ import {Link} from 'umi';
 import {useRef} from 'react';
 import {bookStatusToStyleMap, bookStatusToTextMap} from '@/constant/book';
 import useReaderBorrowedLogic from "@/pages/ReaderBorrowed/logic/useReaderBorrowedLogic";
-import BorrowDateFormModal, {BorrowBookFormFieldMap} from "@/pages/BookView/component/BorrowDateFormModal";
+import BorrowDateFormModal, {BorrowBookFormFieldMap} from "@/components/DateFormModal";
 
 interface Props {
 
@@ -18,8 +18,7 @@ interface Props {
 const BorrowBook: FC<Props> = () => {
     const {borrowBookService} = useReaderBorrowedLogic();
     const onFinish = async (id: number, formDate: BorrowBookFormFieldMap) => {
-      const {occupiedTime} = formDate;
-      await borrowBookService.updateService.run({ id,startedDate: occupiedTime[0], endDate: occupiedTime[1], status: 'RENEWAL'});
+      await borrowBookService.updateService.run({ ...formDate,id, status: 'RENEWAL'});
     };
     const columns: ProColumns<API.BorrowBook>[] = [
       {dataIndex: 'id', title: '编号'},
