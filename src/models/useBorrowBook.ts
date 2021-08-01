@@ -7,6 +7,7 @@ import {
   queryUpdateBorrowBooks
 } from "@/services/borrowBook";
 import {queryDeleteBook} from "@/services/book";
+import { useMemo } from "react";
 
 interface UseBorrowBook {
   onGetBorrowBookListServiceSuccess?: () => void
@@ -18,9 +19,9 @@ interface UseBorrowBook {
 
 }
 
-export const useBorrowBook = (params: UseBorrowBook) => {
+export default function useBorrowBook (params: UseBorrowBook){
   const {onGetBorrowBookListServiceSuccess, onCreateBorrowBookServiceSuccess, onGetOccupiedTimeListSuccess, onDeleteBorrowBookServiceSuccess, onGetBorrowBookServiceSuccess, onUpdateBorrowBookServiceSuccess} = params;
-  const [borrowBookList, setBorrowBookList] = useState<API.BorrowBook[]>();
+  const [borrowBookList, setBorrowBookList] = useState<API.BorrowBook[]>([]);
   const [occupiedTimeList, setOccupiedTimeList] = useState<API.BorrowBook.OccupiedTime[]>([]);
   const getListService = useRequest(queryGetBorrowBooks, {
     manual: true,
@@ -62,6 +63,7 @@ export const useBorrowBook = (params: UseBorrowBook) => {
       onGetOccupiedTimeListSuccess?.();
     }
   });
-  return {getService, getListService, createService, updateService, deleteService, borrowBookList, getOccupiedTimeListService,occupiedTimeList} as const;
+
+  const loading = useMemo(()=>getListService.loading||updateService.loading||createService.loading||getService.loading,[])
+  return {getService, getListService, createService, updateService, deleteService, borrowBookList, getOccupiedTimeListService,occupiedTimeList,loading} as const;
 };
-export default useBorrowBook;
