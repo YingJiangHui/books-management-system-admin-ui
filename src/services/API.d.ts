@@ -14,16 +14,17 @@ declare namespace API {
 
   type LoginResult =
     | {
-        statusCode: number;
-        message: string;
-      }
+    statusCode: number;
+    message: string;
+  }
     | {};
 
   type CurrentUser = {
     username: string;
     roles?: ('user' | 'admin')[];
     email?: string;
-    nation?: string;
+    nation?: { id: number, name: string };
+    createdAt?: string
   };
 
   type Nation = {
@@ -79,8 +80,8 @@ declare namespace API {
     startedDate: string;
   }
 
-  declare namespace BorrowBook{
-    type OccupiedTime = {startedDate: string,endDate:string}
+  declare namespace BorrowBook {
+    type OccupiedTime = { startedDate: string, endDate: string }
 
     interface BaseParams {
       status: status;
@@ -88,7 +89,7 @@ declare namespace API {
       startedDate: string;
     }
 
-    type status = 'APPLIED'|'BORROWED'|'RETURNED'|'RESERVED'|'LOST'
+    type status = 'APPLIED' | 'BORROWED' | 'RETURNED' | 'RESERVED' | 'LOST'
 
     type DeletePrams = {
       id: number
@@ -102,24 +103,25 @@ declare namespace API {
       id: number
     }
 
-    interface CreateParams extends BaseParams{
+    interface CreateParams extends BaseParams {
       status?: status
       bookId: number
     }
 
-    interface UpdateParams extends Partial<BaseParams>{
+    interface UpdateParams extends Partial<BaseParams> {
       id: number
     }
   }
 
   declare namespace Book {
     type AddParams = Partial<BookBaseParams>
+
     interface UpdateParams extends Partial<BookBaseParams> {
       id: number;
     }
 
     interface DeleteParams {
-      id: number|string;
+      id: number | string;
     }
 
     interface GetParams {

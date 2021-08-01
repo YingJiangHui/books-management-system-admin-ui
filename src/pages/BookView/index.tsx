@@ -1,21 +1,16 @@
 import type {FC} from 'react';
 import {EllipsisOutlined,} from '@ant-design/icons';
-import {Button, Dropdown,  Menu, Modal} from 'antd';
+import {Button, Dropdown,  Menu} from 'antd';
 import {PageContainer} from '@ant-design/pro-layout';
-import type { ProColumns} from '@ant-design/pro-table';
-import {useForm} from 'antd/lib/form/Form';
 import ProList from '@ant-design/pro-list';
 import useBookViewLogic from '@/pages/BookView/logic/useBookViewLogic';
-import ProCard from '@ant-design/pro-card';
-import BorrowBookFormModal from "@/pages/BookView/component/BorrowBookFormModal";
-import { ModalForm } from '@ant-design/pro-form';
 
 interface Props {
 
 }
 
-const BookView: FC<Props> = (props) => {
-    const {bookSourceData, bookService,borrowBookService} = useBookViewLogic({});
+const BookView: FC<Props> = () => {
+    const {bookSourceData, bookService} = useBookViewLogic({});
 
 
     return (<div
@@ -69,6 +64,7 @@ const BookView: FC<Props> = (props) => {
         }}
       >
         <ProList<any>
+          loading={bookService.getBooksService.loading}
           pagination={{
             defaultPageSize: 8,
             showSizeChanger: false,

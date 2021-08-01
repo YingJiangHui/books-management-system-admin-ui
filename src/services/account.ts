@@ -2,8 +2,7 @@ import { request } from 'umi';
 import type {RequestOptions} from "@/typings";
 
 
-
-export const logout = async(options?: RequestOptions)=> {
+export const logout = async(options: RequestOptions)=> {
   return request<void>('/api/account/logout', {
     method: 'POST',
     ...(options || {}),
