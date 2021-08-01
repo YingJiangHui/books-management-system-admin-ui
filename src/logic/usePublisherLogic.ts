@@ -7,12 +7,11 @@ export interface UsePublisherLogic {
 }
 export const usePublisherLogic  = (params: UsePublisherLogic={})=>{
 
-  const [publisherList,setPublisherList] = useState<API.Book[]>([])
+  const [publisherList,setPublisherList] = useState<API.Publisher[]>([])
 
   const getPublisherService = useRequest(queryGetPublisher,{
     manual:false,
     onSuccess:(response)=>{
-      console.log(response)
       setPublisherList(response)
     }
   })

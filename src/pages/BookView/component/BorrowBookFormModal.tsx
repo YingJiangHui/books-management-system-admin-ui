@@ -11,7 +11,6 @@ export type BorrowBookFormFieldMap = {occupiedTime: [string,string]}
 const BorrowBookFormModal: FC<Props> = (props) => {
 
   const {trigger,occupiedTimeList,onFinish} = props
-  console.log(moment().add(3,'months').format(),'0123---------=');
 
   return (<ModalForm<BorrowBookFormFieldMap> trigger={trigger} modalProps={{title: '填写借阅信息',width:350}} onFinish={onFinish}>
     <ProFormDateRangePicker name="occupiedTime" label="选择时间范围" fieldProps={{
