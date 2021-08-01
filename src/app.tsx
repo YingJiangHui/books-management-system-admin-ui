@@ -87,15 +87,28 @@ export async function getInitialState(): Promise<{
     504: The gateway timed out. ',
  * @see https://beta-pro.ant.design/docs/request-cn
  */
+
+const codeStatusMap = {
+  500:(error: any)=>{
+    notification.error({
+      message:'异常提醒',
+      description: error.data.message
+    })
+  }
+}
 export const request: RequestConfig = {
-  errorHandler: (error: any) => {
+  errorHandler: (error) => {
     const { response } = error;
+
     if (!response) {
       notification.error({
         description: '您的网络发生异常，无法连接服务器',
         message: '网络异常',
       });
     }
+
+    codeStatusMap[response.status]?.(error)
+
     throw error;
   },
   getResponse:true
