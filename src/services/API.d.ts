@@ -132,4 +132,26 @@ declare namespace API {
       categoryId?: number;
     }
   }
+
+  interface Statistics {
+    book: {
+      "name": "棋王",
+      "bookId": 200,
+      "n": "7"
+    }[]|[],
+    category: {
+      "id": 2,
+      "name": "中",
+      "n": "19"
+    }[]|[]
+    status: {
+      "status": "BORROWED",
+      "n": "20"
+    }[]|[],
+    "reader": {
+      "username": "admin",
+      "userId": 2,
+      "n": "22"
+    }[]|[]
+  }
 }
