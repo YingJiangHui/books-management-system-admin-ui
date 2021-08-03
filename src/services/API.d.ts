@@ -13,17 +13,17 @@ declare namespace API {
   };
 
   type LoginResult =
-    | {
+    |{
     statusCode: number;
     message: string;
   }
-    | {};
+    |{};
 
   type CurrentUser = {
     username: string;
-    roles?: ('user' | 'admin')[];
+    roles?: ('user'|'admin')[];
     email?: string;
-    nation?: { id: number, name: string };
+    nation?: {id: number,name: string};
     createdAt?: string
   };
 
@@ -34,7 +34,7 @@ declare namespace API {
 
   type ErrorData = {
     error: string;
-    message: { field: string; subErrors: string[] }[];
+    message: {field: string;subErrors: string[]}[];
     statusCode: number;
   };
 
@@ -76,21 +76,21 @@ declare namespace API {
     userId: string
     book: Book
     user: CurrentUser
-    status: BorrowBook.status;
+    status: BorrowBook.Status;
     endDate: string;
     startedDate: string;
   }
 
   declare namespace BorrowBook {
-    type OccupiedTime = { startedDate: string, endDate: string }
+    type OccupiedTime = {startedDate: string,endDate: string}
 
     interface BaseParams {
-      status?: status;
+      status?: Status;
       endDate?: string;
       startedDate?: string;
     }
 
-    type status = 'APPLIED' | 'BORROWED' | 'RETURNED' | 'RESERVED' | 'LOST' | 'REFUSE' | 'CANCELED' | 'RENEWAL'
+    type Status = 'APPLIED'|'BORROWED'|'RETURNED'|'RESERVED'|'LOST'|'REFUSE'|'CANCELED'|'RENEWAL'
 
     type DeletePrams = {
       id: number
@@ -98,7 +98,7 @@ declare namespace API {
 
     type GetsParams = {
       bookId?: number,
-      status?: status
+      status?: Status
     }
     type GetParams = {
       id: number
@@ -123,7 +123,7 @@ declare namespace API {
     }
 
     interface DeleteParams {
-      id: number | string;
+      id: number|string;
     }
 
     interface GetParams {
@@ -135,23 +135,38 @@ declare namespace API {
 
   interface Statistics {
     book: {
-      "name": "棋王",
-      "bookId": 200,
-      "n": "7"
+      'name': '棋王',
+      'bookId': 200,
+      'n': '7'
     }[]|[],
     category: {
-      "id": 2,
-      "name": "中",
-      "n": "19"
+      'id': 2,
+      'name': '中',
+      'n': '19'
     }[]|[]
     status: {
-      "status": "BORROWED",
-      "n": "20"
+      'status': 'BORROWED',
+      'n': '20'
     }[]|[],
-    "reader": {
-      "username": "admin",
-      "userId": 2,
-      "n": "22"
+    'reader': {
+      'username': 'admin',
+      'userId': 2,
+      'n': '22'
     }[]|[]
+  }
+
+  type TimeUnit = 'month'|'day'
+
+  interface StatisticsTimeItem {
+    time: number,
+    status: BorrowBook.Status,
+    count: string
+  }
+
+  type TimeQuantum = [string,string]
+
+  declare namespace Statistics{
+    type StatisticsByTimeListPrams = {timeUnit?: API.TimeUnit,timeQuantum?: API.TimeQuantum}
+
   }
 }

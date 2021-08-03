@@ -1,0 +1,17 @@
+.xkd(@n, @i: 1) when (@i =< @n) {
+  .serialNumber@{i} {
+    font-size: 14px;
+    border-radius: 50%;
+    background: rgba(0,0,0,1-(@i/10/1.1));
+    color:#fff;
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    text-align: center;
+    line-height: 24px;
+    margin-right: 2em;
+  }
+  .xkd(@n, (@i + 1));
+}
+
+.xkd(10);
