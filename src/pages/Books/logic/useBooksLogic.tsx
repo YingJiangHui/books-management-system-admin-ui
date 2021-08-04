@@ -6,10 +6,10 @@ import useBorrowBook from "@/models/useBorrowBook";
 import BorrowDateFormModal, {BorrowBookFormFieldMap} from "@/components/DateFormModal";
 import {message} from 'antd';
 
-interface UseBookViewLogic {
+interface UseBooksLogic {
 }
 
-const useBookViewLogic = (params: UseBookViewLogic) => {
+const useBookViewLogic = (params: UseBooksLogic) => {
   const bookService = useBook({});
   const borrowBookService = useBorrowBook({
     onCreateBorrowBookServiceSuccess: () => {
@@ -28,7 +28,7 @@ const useBookViewLogic = (params: UseBookViewLogic) => {
       await borrowBookService.createService.run({startedDate: formDate.rangeDate[0], endDate: formDate.rangeDate[1], bookId, status: 'RESERVED'});
   };
   const bookSourceData = bookService.bookList.map((book) => ({
-    title: <Link to={'/'}>{book.name}</Link>,
+    title: <Link to={`/books/${book.id}`}>{book.name}</Link>,
     subTitle: <>{book.categories.map((category) => (<Tag key={category.id} color="#5BD8A6">{category.name}</Tag>))}</>,
     actions: [
       <BorrowDateFormModal onFinish={onBorrowBookFormFinish.bind(null, book.id)}

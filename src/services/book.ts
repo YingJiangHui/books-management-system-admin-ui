@@ -1,10 +1,17 @@
 import {request} from "umi";
 
 
-export function queryGetBooks(params: API.Book.GetParams = {}) {
+export function queryGetBookList(params: API.Book.GetParams = {}) {
   return request<API.Book[]>('/api/books', {
     method: "GET",
     params,
+    getResponse: true
+  });
+}
+
+export function queryGetBook(params: {id: number}) {
+  return request<API.Book>(`/api/books/${params.id}`, {
+    method: "GET",
     getResponse: true
   });
 }

@@ -9,23 +9,23 @@
           {
             name: 'login',
             path: '/user/login',
-            component: './user/Login',
-          },
-        ],
-      },
-    ],
+            component: './user/Login'
+          }
+        ]
+      }
+    ]
   },
   {
     path: '/account',
     name: 'account',
     icon: 'user',
-    component: './Account',
+    component: './Account'
   },
   {
     path: '/welcome',
     name: 'welcome',
     icon: 'smile',
-    component: './Welcome',
+    component: './Welcome'
   },
   {
     path: '/admin',
@@ -38,46 +38,52 @@
         path: '/admin/sub-page',
         name: 'sub-page',
         icon: 'smile',
-        component: './Welcome',
-      },
-    ],
+        component: './Welcome'
+      }
+    ]
   },
   {
     path: '/book-management',
     name: 'bookManagement',
     icon: 'book',
     component: './BookManagement',
-    access: 'canAdmin'
+    access: 'canAdmin',
   },
   {
-    path: '/bookView',
-    name: 'bookView',
+    path: '/books',
+    name: 'books',
     icon: 'book',
-    component: './BookView',
+    component: './Books',
+  },
+  {
+    name:'book',
+    path: '/books/:id',
+    component: "./Books/Book",
+    hideInMenu: true,
   },
   {
     path: '/statistics',
     name: 'statistics',
     icon: 'dotChart',
-    component: './Statistics',
+    component: './Statistics'
   },
   {
     path: '/borrow-book',
     name: 'borrowBook',
     icon: 'read',
-    component: './BorrowBook',
+    component: './BorrowBook'
   },
   {
     path: '/reader-borrowed',
     name: 'readerBorrowed',
     icon: 'read',
-    component: './ReaderBorrowed',
+    component: './ReaderBorrowed'
   },
   {
     path: '/',
-    redirect: '/welcome',
+    redirect: '/welcome'
   },
   {
-    component: './404',
-  },
+    component: './404'
+  }
 ];

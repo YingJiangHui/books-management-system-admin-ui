@@ -8,7 +8,7 @@ import type {ActionType,ProColumns} from '@ant-design/pro-table';
 import {EditableProTable} from '@ant-design/pro-table';
 import {Link} from 'umi';
 import React,{useRef} from 'react';
-import {queryAddBooks, queryDeleteBook, queryGetBooks, queryUpdateBooks} from '@/services/book';
+import {queryAddBooks, queryDeleteBook, queryGetBookList, queryUpdateBooks} from '@/services/book';
 import {useForm} from 'antd/lib/form/Form';
 import {OptionsType} from '@ant-design/pro-table/es/components/ToolBar';
 import {bookStatusToTextMap} from '@/constant/book';
@@ -44,7 +44,7 @@ const BookManagement: FC<Props> = (props) => {
     const [form] = useForm();
     const columns: ProColumns<API.Book>[] = [
       {dataIndex: 'id',title: '编号'},
-      {dataIndex: 'name',title: '书名',render: (data,record) => <Link to={`/book/${record.id}`}>{data}</Link>},
+      {dataIndex: 'name',title: '书名',render: (data,record) => <Link to={`/books/${record.id}`}>{data}</Link>},
       {dataIndex: 'author',title: '作者'},
       {
         dataIndex: 'publisher',title: '出版社',
@@ -65,6 +65,9 @@ const BookManagement: FC<Props> = (props) => {
         renderFormItem: (data,{isEditable,...rest},form) => {
           return isEditable ? <TableMultipleSelect nativeProps={{mode: 'multiple'}} options={categoryList?.map(({id,name}) => ({label: name,value: id}))}/> : <Input/>;
         }
+      },
+      {
+        dataIndex: 'description',title: '描述',
       },
       {
         title: '操作',valueType: 'option',render: (data,record,_,action) => {
@@ -155,7 +158,7 @@ const BookManagement: FC<Props> = (props) => {
               request={async(params = {},sort,filter) => {
                 console.log("params,sort,filter");
                 console.log(params,sort,filter);
-                return  queryGetBooks(params);
+                return  queryGetBookList(params);
               }}
               editable={{
                 form,

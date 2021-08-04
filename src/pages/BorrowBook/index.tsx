@@ -18,8 +18,8 @@ const BorrowBook: FC<Props> = () => {
     const {borrowBookService} = useBorrowBookLogic()
     const columns: ProColumns<API.BorrowBook>[] = [
       {dataIndex: 'id',title: '编号'},
-      {dataIndex: 'book',title: '图书编号',render: (data,record) => <Link to={`/book/${data.id}`}>{data.id}</Link>},
-      {dataIndex: 'book',title: '书名',render: (data,record) => <Link to={`/book/${data.id}`}>{data.name}</Link>},
+      {dataIndex: 'book',title: '图书编号',render: (data,record) => data.id},
+      {dataIndex: 'book',title: '书名',render: (data,record) => <Link to={`/books/${data.id}`}>{data.name}</Link>},
       {dataIndex: 'user',title: '读者',render:(data)=><Link to={`/user/${data.id}`}>{data.username}</Link>},
       {title:'起始日期', dataIndex: 'startedDate'},
       {title:'结束日期', dataIndex: 'endDate'},

@@ -3,13 +3,13 @@ import {EllipsisOutlined,} from '@ant-design/icons';
 import {Button, Dropdown,  Menu} from 'antd';
 import {PageContainer} from '@ant-design/pro-layout';
 import ProList from '@ant-design/pro-list';
-import useBookViewLogic from '@/pages/BookView/logic/useBookViewLogic';
+import useBookViewLogic from '@/pages/Books/logic/useBooksLogic';
 
 interface Props {
 
 }
 
-const BookView: FC<Props> = () => {
+const Book: FC<Props> = () => {
     const {bookSourceData, bookService} = useBookViewLogic({});
 
 
@@ -34,28 +34,7 @@ const BookView: FC<Props> = () => {
               },
             ],
           },
-          extra: [
-            <Button key="1">次要按钮</Button>,
-            <Button key="2">次要按钮</Button>,
-            <Button key="3" type="primary">
-              主要按钮
-            </Button>,
-            <Dropdown
-              key="dropdown"
-              trigger={['click']}
-              overlay={
-                <Menu>
-                  <Menu.Item key="1">下拉菜单</Menu.Item>
-                  <Menu.Item key="2">下拉菜单2</Menu.Item>
-                  <Menu.Item key="3">下拉菜单3</Menu.Item>
-                </Menu>
-              }
-            >
-              <Button key="4" style={{padding: '0 8px'}}>
-                <EllipsisOutlined/>
-              </Button>
-            </Dropdown>,
-          ],
+
         }}
         tabProps={{
           type: 'editable-card',
@@ -93,4 +72,4 @@ const BookView: FC<Props> = () => {
   }
 ;
 
-export default BookView;
+export default Book;
