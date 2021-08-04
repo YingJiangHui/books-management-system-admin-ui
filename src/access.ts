@@ -9,6 +9,6 @@ export default function access(initialState: { currentUser?: API.CurrentUser | u
   const { currentUser } = initialState || {};
   return {
     canAdmin: currentUser && currentUser.roles?.includes(Roles.Admin),
-    canUser: currentUser && currentUser.roles?.includes(Roles.User),
+    canUser: currentUser && (currentUser.roles?.includes(Roles.User)||currentUser.roles?.includes(Roles.Admin)),
   };
 }

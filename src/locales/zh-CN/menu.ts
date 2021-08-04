@@ -2,7 +2,7 @@ export default {
   'menu.readerBorrowed':'我的借阅',
   'menu.borrowBook':'借阅管理',
   'menu.books':'图书列表',
-  'menu.statistics':'统计',
+  'menu.statistics':'数据统计',
   'menu.bookManagement':'图书管理',
   'menu.welcome': '欢迎',
   'menu.more-blocks': '更多区块',

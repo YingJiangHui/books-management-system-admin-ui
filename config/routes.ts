@@ -22,12 +22,21 @@
     component: './Account'
   },
   {
+    path: '/statistics',
+    name: 'statistics',
+    icon: 'dotChart',
+    component: './Statistics',
+    access: 'canAdmin',
+  },
+  {
     path: '/welcome',
     name: 'welcome',
     icon: 'smile',
-    component: './Welcome'
+    component: './Welcome',
+    hideInMenu: true
   },
   {
+    hideInMenu: true,
     path: '/admin',
     name: 'admin',
     icon: 'crown',
@@ -54,6 +63,7 @@
     name: 'books',
     icon: 'book',
     component: './Books',
+    access: 'canUser',
   },
   {
     name:'book',
@@ -62,26 +72,23 @@
     hideInMenu: true,
   },
   {
-    path: '/statistics',
-    name: 'statistics',
-    icon: 'dotChart',
-    component: './Statistics'
+    path: '/borrow-book-management',
+    name: 'borrowBook',
+    icon: 'read',
+    component: './BorrowBook',
+    access: 'canAdmin',
   },
   {
     path: '/borrow-book',
-    name: 'borrowBook',
-    icon: 'read',
-    component: './BorrowBook'
-  },
-  {
-    path: '/reader-borrowed',
     name: 'readerBorrowed',
-    icon: 'read',
-    component: './ReaderBorrowed'
+    icon: 'paperClip',
+    component: './ReaderBorrowed',
+    access: 'canUser',
   },
   {
     path: '/',
-    redirect: '/welcome'
+    redirect: '/account',
+    hideInMenu: true
   },
   {
     component: './404'

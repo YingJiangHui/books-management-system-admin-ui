@@ -186,10 +186,10 @@ const Login: React.FC = () => {
               )}
             </>
           </ProForm>
-          <Space className={styles.other}>
-            <FormattedMessage id="pages.login.loginWith" defaultMessage="其他登录方式"/>
-            <AlipayCircleOutlined className={styles.icon}/>
-          </Space>
+          {/*<Space className={styles.other}>*/}
+          {/*  <FormattedMessage id="pages.login.loginWith" defaultMessage="其他登录方式"/>*/}
+          {/*  <AlipayCircleOutlined className={styles.icon}/>*/}
+          {/*</Space>*/}
         </div>
       </div>
       <Footer/>
