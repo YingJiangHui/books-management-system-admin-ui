@@ -24,8 +24,8 @@ const useBookViewLogic = (params: UseBooksLogic) => {
       await borrowBookService.createService.run({endDate: formDate.endDate, bookId, status: 'APPLIED'});
   };
   const onReservedBookFormFinish = async (bookId: number, formDate: BorrowBookFormFieldMap) => {
-    if (formDate.rangeDate)
-      await borrowBookService.createService.run({startedDate: formDate.rangeDate[0], endDate: formDate.rangeDate[1], bookId, status: 'RESERVED'});
+    if (formDate.dateRange)
+      await borrowBookService.createService.run({startedDate: formDate.dateRange[0], endDate: formDate.dateRange[1], bookId, status: 'RESERVED'});
   };
   const bookSourceData = bookService.bookList.map((book) => ({
     title: <Link to={`/books/${book.id}`}>{book.name}</Link>,

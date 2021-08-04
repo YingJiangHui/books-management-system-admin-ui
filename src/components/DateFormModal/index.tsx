@@ -11,7 +11,7 @@ interface Props {
   isRange?: boolean
 }
 
-export type BorrowBookFormFieldMap = { endDate?: string,rangeDate?: [string,string] }
+export type BorrowBookFormFieldMap = { endDate?: string,dateRange?: [string,string] }
 const BorrowDateFormModal: FC<Props> = (props) => {
   const {trigger, occupiedTimeList, onFinish, modalProps, isRange=false} = props;
   const disabledDate = (current: moment.Moment) => {

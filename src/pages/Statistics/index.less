@@ -1,13 +1,16 @@
 .gridContainer {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1.8fr ;
-  grid-template-rows: 500px ;
-  grid-template-areas: 'rank1 rank2 chartPie'
-                       'rank3  chartPillar chartPillar';
+  grid-template-columns: 1fr 1fr 1fr 1.5fr;
+  grid-template-rows: 500px;
+  grid-template-areas: 'chartPillar chartPillar chartPillar chartPillar'
+                       'rank1 rank2 rank3 chartPie';
 }
 
 //select extract(year from now()) as yy, extract(month from now()) as mm, extract(day from now()) as dd ,count(*) from borrow_book GROUP BY yy,mm,dd
+.rank {
+  white-space: nowrap;
+}
 
 .rank1 {
   grid-area: rank1;
@@ -26,6 +29,6 @@
 }
 
 
-.chartPillar{
+.chartPillar {
   grid-area: chartPillar;
 }

@@ -90,7 +90,7 @@ declare namespace API {
       startedDate?: string;
     }
 
-    type Status = 'APPLIED'|'BORROWED'|'RETURNED'|'RESERVED'|'LOST'|'REFUSE'|'CANCELED'|'RENEWAL'
+    type Status = 'APPLIED'|'BORROWED'|'RETURNED'|'RESERVED'|'LOST'|'REFUSE'|'CANCELED'|'RENEWAL'|'RESERVE_FAILED'
 
     type DeletePrams = {
       id: number
@@ -155,7 +155,7 @@ declare namespace API {
     }[]|[]
   }
 
-  type TimeUnit = 'month'|'day'
+  type TimeUnit = 'month'|'year'|'day'
 
   interface StatisticsTimeItem {
     time: number,
