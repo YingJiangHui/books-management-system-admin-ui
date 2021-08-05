@@ -212,16 +212,9 @@ const BookManagement: FC<Props> = (props) => {
                 pageSize: 10
               }}
               dateFormatter="string"
-              headerTitle="图书列表"
+              headerTitle="图书管理列表"
               toolBarRender={() => [
-                <Button key="button" icon={<PlusOutlined/>} type="primary">
-                  新建
-                </Button>,
-                <Dropdown key="menu" overlay={menu}>
-                  <Button>
-                    <EllipsisOutlined/>
-                  </Button>
-                </Dropdown>
+              <div/>
               ]}
             />
           </ProCard>

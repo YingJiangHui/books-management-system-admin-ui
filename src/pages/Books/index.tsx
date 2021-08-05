@@ -1,9 +1,10 @@
 import type {FC} from 'react';
-import {EllipsisOutlined,} from '@ant-design/icons';
+import {EllipsisOutlined, SearchOutlined,} from '@ant-design/icons';
 import {Button, Dropdown,  Menu} from 'antd';
 import {PageContainer} from '@ant-design/pro-layout';
 import ProList from '@ant-design/pro-list';
 import useBookViewLogic from '@/pages/Books/logic/useBooksLogic';
+import ProForm, { ProFormText } from '@ant-design/pro-form';
 
 interface Props {
 
@@ -56,6 +57,13 @@ const Book: FC<Props> = () => {
             avatar: {},
             content: {},
             actions: {},
+          }}
+          toolBarRender={() => {
+            return [
+              <ProForm style={{width:500}} size={'large'} submitter={false} onValuesChange={(changeValues) => bookService.getBooksService.run(changeValues)} >
+                <ProFormText name='searchText' placeholder={"输入任意关键字查询图书"} fieldProps={{suffix: <SearchOutlined />}}/>
+              </ProForm>
+            ];
           }}
           expandable={{
 
