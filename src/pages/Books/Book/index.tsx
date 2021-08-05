@@ -75,23 +75,23 @@ const Book: FC<PropsWithChildren<BookProps>> = ({...rest}) => {
         </Descriptions.Item>
       </Descriptions>
 
-      <List
-        className="comment-list"
-        header={`${data.length} 条评论`}
-        itemLayout="horizontal"
-        dataSource={data}
-        renderItem={item => (
-          <li>
-            <Comment
-              actions={item.actions}
-              author={item.author}
-              avatar={item.avatar}
-              content={item.content}
-              datetime={item.datetime}
-            />
-          </li>
-        )}
-      />
+      {/*<List*/}
+      {/*  className="comment-list"*/}
+      {/*  header={`${data.length} 条评论`}*/}
+      {/*  itemLayout="horizontal"*/}
+      {/*  dataSource={data}*/}
+      {/*  renderItem={item => (*/}
+      {/*    <li>*/}
+      {/*      <Comment*/}
+      {/*        actions={item.actions}*/}
+      {/*        author={item.author}*/}
+      {/*        avatar={item.avatar}*/}
+      {/*        content={item.content}*/}
+      {/*        datetime={item.datetime}*/}
+      {/*      />*/}
+      {/*    </li>*/}
+      {/*  )}*/}
+      {/*/>*/}
     </ProCard>
   </PageContainer>
 );

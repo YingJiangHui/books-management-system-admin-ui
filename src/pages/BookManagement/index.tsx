@@ -110,7 +110,30 @@ const BookManagement: FC<Props> = (props) => {
               }
             ]
           },
+          extra: [
+            <Button key="1">次要按钮</Button>,
+            <Button key="2">次要按钮</Button>,
+            <Button key="3" type="primary">
+              主要按钮
+            </Button>,
+            <Dropdown
+              key="dropdown"
+              trigger={['click']}
+              overlay={
+                <Menu>
+                  <Menu.Item key="1">下拉菜单</Menu.Item>
+                  <Menu.Item key="2">下拉菜单2</Menu.Item>
+                  <Menu.Item key="3">下拉菜单3</Menu.Item>
+                </Menu>
+              }
+            >
+              <Button key="4" style={{padding: '0 8px'}}>
+                <EllipsisOutlined/>
+              </Button>
+            </Dropdown>
+          ]
         }}
+
         tabProps={{
           type: 'editable-card',
           hideAdd: true,
@@ -191,7 +214,14 @@ const BookManagement: FC<Props> = (props) => {
               dateFormatter="string"
               headerTitle="图书列表"
               toolBarRender={() => [
-             <div/>
+                <Button key="button" icon={<PlusOutlined/>} type="primary">
+                  新建
+                </Button>,
+                <Dropdown key="menu" overlay={menu}>
+                  <Button>
+                    <EllipsisOutlined/>
+                  </Button>
+                </Dropdown>
               ]}
             />
           </ProCard>

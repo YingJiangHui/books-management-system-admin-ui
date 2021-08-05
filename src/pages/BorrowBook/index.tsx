@@ -86,11 +86,7 @@ const BorrowBook: FC<Props> = () => {
               // }}
               dataSource={borrowBookService.borrowBookList}
               rowKey="id"
-              search={{
-                filterType: 'light',
-                searchText: '搜索',
-                labelWidth: 'auto'
-              }}
+              search={false}
               form={{
                 // 由于配置了 transform，提交的参与与定义的不同这里需要转化一下
 
@@ -109,17 +105,7 @@ const BorrowBook: FC<Props> = () => {
                 pageSize: 10
               }}
               dateFormatter="string"
-              headerTitle="高级表格"
-              toolBarRender={() => [
-                <Button key="button" icon={<PlusOutlined/>} type="primary">
-                  新建
-                </Button>,
-                <Dropdown key="menu" overlay={menu}>
-                  <Button>
-                    <EllipsisOutlined/>
-                  </Button>
-                </Dropdown>
-              ]}
+              headerTitle="用户借阅管理列表"
             />
           </ProCard>
           <ProCard gutter={16} ghost style={{height: 200}}>

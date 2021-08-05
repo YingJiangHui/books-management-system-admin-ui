@@ -1,5 +1,7 @@
 import { Settings as LayoutSettings } from '@ant-design/pro-layout';
-
+const path = require('path')
+const logoPath = path.join(__dirname,'../public/book.png')
+console.log(logoPath)
 const Settings: LayoutSettings & {
   pwa?: boolean;
   logo?: string;
@@ -14,7 +16,7 @@ const Settings: LayoutSettings & {
   colorWeak: false,
   title: '图书管理系统',
   pwa: false,
-  logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+  logo: logoPath,
   iconfontUrl: '',
 };
 

@@ -24,7 +24,7 @@
   {
     path: '/statistics',
     name: 'statistics',
-    icon: 'dotChart',
+    icon: 'BarChart',
     component: './Statistics',
     access: 'canAdmin',
   },
@@ -61,7 +61,7 @@
   {
     path: '/books',
     name: 'books',
-    icon: 'book',
+    icon: 'read',
     component: './Books',
     access: 'canUser',
   },
@@ -74,7 +74,7 @@
   {
     path: '/borrow-book-management',
     name: 'borrowBook',
-    icon: 'read',
+    icon: 'UnorderedList',
     component: './BorrowBook',
     access: 'canAdmin',
   },
