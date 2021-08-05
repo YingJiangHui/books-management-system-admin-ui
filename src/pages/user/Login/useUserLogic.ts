@@ -1,8 +1,9 @@
-import {login, sign,sendCode} from "@/services/account";
-import {useRequest} from "umi";
-import {getNationList} from "@/services/user";
-import {useEffect, useState} from "react";
-import {useHttpErrorHandler} from "@/hooks/useHttpErrorHandler";
+import {login,sign,sendCode} from '@/services/account';
+import {useRequest} from 'umi';
+import {getNationList} from '@/services/user';
+import {useEffect,useState} from 'react';
+import {useHttpErrorHandler} from '@/hooks/useHttpErrorHandler';
+import useMail from '@/models/useMail';
 
 interface Params {
   onSuccessForLogin?: () => void
@@ -12,64 +13,48 @@ interface Params {
 
 export const useUserLogic = (params: Params = {}) => {
 
-  const [type, setType] = useState<"login" | "sign">('login');
-  const {onSuccessForLogin, onSuccessForSign,onSuccessSendCode} = params;
-  const [nationList, setNationList] = useState<API.Nation[]>([]);
-  const {setErrorData, resetErrorData,Alert} = useHttpErrorHandler();
-  const [delayTime,setDelayTime] = useState(0)
-  const sendCodeService = useRequest(sendCode,{
+  const [type,setType] = useState<'login'|'sign'>('login');
+  const {onSuccessForLogin,onSuccessForSign,onSuccessSendCode} = params;
+  const [nationList,setNationList] = useState<API.Nation[]>([]);
+  const {setErrorData,resetErrorData,Alert} = useHttpErrorHandler();
+  const {sendCodeService,delayTime} = useMail({
+    onErrorSendCode: () => {
+
+    },
+    onSuccessSendCode:()=>{
+      onSuccessSendCode?.()
+    }
+  });
+
+  const loginService = useRequest(login,{
     debounceInterval: 500,
     manual: true,
-    onSuccess:()=>{
-      setDelayTime(60)
-      onSuccessSendCode?.()
-    },
-    onError:(e)=>{
-      setErrorData(e.data);
-    }
-  })
-  useEffect(()=>{
-    if(delayTime<1){
-      return ;
-    }
-    const timer = setTimeout(()=>{
-      setDelayTime(time=>time-1)
-    },1000)
-
-    return ()=>{
-      clearTimeout(timer)
-    }
-  },[delayTime])
-
-  const loginService = useRequest(login, {
-    debounceInterval:500,
-    manual:true,
     onSuccess: () => {
       onSuccessForLogin?.();
       resetErrorData();
     },
     onError: (e) => {
       setErrorData(e.data);
-    },
+    }
   });
-  const signService = useRequest(sign, {
-    debounceInterval:500,
-    manual:true,
+  const signService = useRequest(sign,{
+    debounceInterval: 500,
+    manual: true,
     onSuccess: () => {
       onSuccessForSign?.();
       resetErrorData();
     },
     onError: (e) => {
       setErrorData(e.data);
-    },
+    }
   });
-  const nationListService = useRequest(getNationList, {
+  const nationListService = useRequest(getNationList,{
     onSuccess: (response) => {
       setNationList(response);
     }
   });
-  useEffect(()=>{
-    resetErrorData()
-  },[type])
-  return {loginService, signService, nationListService, nationList,Alert,type, setType,sendCodeService,delayTime};
+  useEffect(() => {
+    resetErrorData();
+  },[type]);
+  return {loginService,signService,nationListService,nationList,Alert,type,setType,sendCodeService,delayTime};
 };

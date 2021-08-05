@@ -188,7 +188,7 @@ const Login: React.FC = () => {
                       <Col span={8} offset={2}>
                         <Button size='large' onClick={()=>{
                           sendCodeService.run({email: form.getFieldValue('email')})
-                        }} disabled={Boolean(delayTime)}>{delayTime?(delayTime+'s'):''} 发送验证码</Button>
+                        }} disabled={Boolean(delayTime)}>{delayTime?(`${delayTime}s`):''} 发送验证码</Button>
                       </Col>
 
                     </Row>
