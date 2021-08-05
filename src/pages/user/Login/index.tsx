@@ -98,7 +98,7 @@ const Login: React.FC = () => {
             submitter={{
               searchConfig: {
                 submitText: intl.formatMessage({
-                  id: 'pages.login.submit',
+                  id: type==='sign'?"pages.login.registerAccount":'pages.login.submit',
                   defaultMessage: '登录',
                 }),
               },
@@ -178,7 +178,7 @@ const Login: React.FC = () => {
                     ]}
                   />
                   <ProFormText fieldProps={{size: 'large', prefix: <MailOutlined className={styles.prefixIcon}/>}}
-                               placeholder="请填写你的邮箱@" rules={[{required: true, message: '请选择你的民族！'}]} name="email"/>
+                               placeholder="请填写你的邮箱@" name="email"/>
                   <ProFormSelect options={nationList.map((item) => ({value: item.id, label: item.name}))}
                                  fieldProps={{size: 'large'}} placeholder="请选择你的民族"
                                  rules={[{required: true, message: '请选择你的民族！'}]} name="nationId"/>

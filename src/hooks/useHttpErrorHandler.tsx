@@ -4,7 +4,7 @@ import {Alert as UmiAlert} from 'antd';
 export const useHttpErrorHandler = () => {
   const [errorData, setErrorData] = useState<API.ErrorData | null>();
 
-  const statusCode = useMemo(() => (errorData?.statusCode), []);
+  const statusCode = useMemo(() => (errorData?.statusCode), [errorData?.statusCode]);
   const message = useMemo(() => ({
     400: ()=>errorData?.message.map(m => m.subErrors.join(',')).join(','),
     401: ()=>"用户名或密码错误"
