@@ -20,6 +20,13 @@ export async function login(data: API.LoginParams, options?: RequestOptions) {
   });
 }
 
+export async function sendCode(params: {email: string}) {
+  return request<void>('/api/email/sendCode', {
+    method: 'POST',
+    data:params
+  });
+}
+
 export async function sign(data: API.SignParams, options?: RequestOptions) {
   return request<API.CurrentUser>('/api/account/sign', {
     method: 'POST',
