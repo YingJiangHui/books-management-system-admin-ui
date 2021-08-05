@@ -24,19 +24,24 @@ const useBookViewLogic = (params: UseBooksLogic) => {
       await borrowBookService.createService.run({endDate: formDate.endDate, bookId, status: 'APPLIED'});
   };
   const onReservedBookFormFinish = async (bookId: number, formDate: BorrowBookFormFieldMap) => {
+    const {dateRange,...rest} = formDate
     if (formDate.dateRange)
-      await borrowBookService.createService.run({startedDate: formDate.dateRange[0], endDate: formDate.dateRange[1], bookId, status: 'RESERVED'});
+      await borrowBookService.createService.run({...rest,startedDate: dateRange?.[0], endDate: dateRange?.[1], bookId, status: 'RESERVED'});
   };
   const bookSourceData = bookService.bookList.map((book) => ({
     title: <Link to={`/books/${book.id}`}>{book.name}</Link>,
     subTitle: <>{book.categories.map((category) => (<Tag key={category.id} color="#5BD8A6">{category.name}</Tag>))}</>,
     actions: [
-      <BorrowDateFormModal onFinish={onBorrowBookFormFinish.bind(null, book.id)}
+      <BorrowDateFormModal
+        Alert={borrowBookService.Alert}
+        modalProps={{title:'填写借阅信息'}} onFinish={onBorrowBookFormFinish.bind(null, book.id)}
                            occupiedTimeList={borrowBookService.occupiedTimeList}
                            trigger={<Button type="link" onClick={() => {
                              borrowBookService.getOccupiedTimeListService.run({id: book.id});
                            }}>申请借阅</Button>}/>,
-      <BorrowDateFormModal isRange={true} onFinish={onReservedBookFormFinish.bind(null, book.id)}
+      <BorrowDateFormModal
+        Alert={borrowBookService.Alert}
+        modalProps={{title:'填写预约信息'}} isRange={true} onFinish={onReservedBookFormFinish.bind(null, book.id)}
                            occupiedTimeList={borrowBookService.occupiedTimeList}
                            trigger={<Button type="link" onClick={() => {
                              borrowBookService.getOccupiedTimeListService.run({id: book.id});

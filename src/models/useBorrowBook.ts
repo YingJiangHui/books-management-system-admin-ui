@@ -8,6 +8,7 @@ import {
 } from "@/services/borrowBook";
 import {queryDeleteBook} from "@/services/book";
 import { useMemo } from "react";
+import {useHttpErrorHandler} from "@/hooks/useHttpErrorHandler";
 
 interface UseBorrowBook {
   onGetBorrowBookListServiceSuccess?: () => void
@@ -23,6 +24,7 @@ export default function useBorrowBook (params: UseBorrowBook){
   const {onGetBorrowBookListServiceSuccess, onCreateBorrowBookServiceSuccess, onGetOccupiedTimeListSuccess, onDeleteBorrowBookServiceSuccess,onGetBorrowBookListForUserServiceSuccess, onGetBorrowBookServiceSuccess, onUpdateBorrowBookServiceSuccess} = params;
   const [borrowBookList, setBorrowBookList] = useState<API.BorrowBook[]>([]);
   const [occupiedTimeList, setOccupiedTimeList] = useState<API.BorrowBook.OccupiedTime[]>([]);
+  const {setErrorData,resetErrorData,Alert} = useHttpErrorHandler()
   const getListService = useRequest(queryGetBorrowBooks, {
     manual: true,
     onSuccess: (response) => {
@@ -41,6 +43,10 @@ export default function useBorrowBook (params: UseBorrowBook){
     manual: true,
     onSuccess: () => {
       onCreateBorrowBookServiceSuccess?.();
+      resetErrorData()
+    },
+    onError:(e)=>{
+      setErrorData(e.data)
     }
   });
   const updateService = useRequest(queryUpdateBorrowBooks, {
@@ -72,5 +78,5 @@ export default function useBorrowBook (params: UseBorrowBook){
   })
 
   const loading = useMemo(()=>getListService.loading||updateService.loading||createService.loading||getService.loading,[])
-  return {getService, getListService,getListForUserService,createService, updateService, deleteService, borrowBookList, getOccupiedTimeListService,occupiedTimeList,loading} as const;
+  return {getService, getListService,getListForUserService,createService, updateService, deleteService, borrowBookList, getOccupiedTimeListService,occupiedTimeList,loading,Alert} as const;
 };
