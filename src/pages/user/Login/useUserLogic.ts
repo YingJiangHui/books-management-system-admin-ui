@@ -32,9 +32,13 @@ export const useUserLogic = (params: Params = {}) => {
     if(delayTime<1){
       return ;
     }
-    setTimeout(()=>{
+    const timer = setTimeout(()=>{
       setDelayTime(time=>time-1)
     },1000)
+
+    return ()=>{
+      clearTimeout(timer)
+    }
   },[delayTime])
 
   const loginService = useRequest(login, {
