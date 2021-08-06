@@ -1,9 +1,7 @@
 import type {FC} from 'react';
-import {EllipsisOutlined,PlusOutlined} from '@ant-design/icons';
-import {Button,Dropdown,Form,Input,Menu,message,Select,SelectProps, Tag} from 'antd';
+import {Button,Input,Menu,message,Select,SelectProps} from 'antd';
 import {PageContainer} from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
-import useBook from '@/models/useBook';
 import type {ActionType,ProColumns} from '@ant-design/pro-table';
 import {EditableProTable} from '@ant-design/pro-table';
 import {Link} from 'umi';
@@ -11,7 +9,6 @@ import React,{useRef} from 'react';
 import {queryAddBooks, queryDeleteBook, queryGetBookList, queryUpdateBooks} from '@/services/book';
 import {useForm} from 'antd/lib/form/Form';
 import {OptionsType} from '@ant-design/pro-table/es/components/ToolBar';
-import {bookStatusToTextMap} from '@/constant/book';
 import useBookLogic from "@/pages/BookManagement/useBookLogic";
 
 interface Props {
@@ -75,7 +72,6 @@ const BookManagement: FC<Props> = (props) => {
             <Button type="link" key="editable" onClick={() => {
               action?.startEditable?.(record.id);
             }}>操作</Button>
-            <Button type="link" key="borrow">借阅</Button>
           </>);
         }
       }
@@ -110,28 +106,6 @@ const BookManagement: FC<Props> = (props) => {
               }
             ]
           },
-          extra: [
-            <Button key="1">次要按钮</Button>,
-            <Button key="2">次要按钮</Button>,
-            <Button key="3" type="primary">
-              主要按钮
-            </Button>,
-            <Dropdown
-              key="dropdown"
-              trigger={['click']}
-              overlay={
-                <Menu>
-                  <Menu.Item key="1">下拉菜单</Menu.Item>
-                  <Menu.Item key="2">下拉菜单2</Menu.Item>
-                  <Menu.Item key="3">下拉菜单3</Menu.Item>
-                </Menu>
-              }
-            >
-              <Button key="4" style={{padding: '0 8px'}}>
-                <EllipsisOutlined/>
-              </Button>
-            </Dropdown>
-          ]
         }}
 
         tabProps={{
