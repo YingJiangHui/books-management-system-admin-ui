@@ -45,7 +45,7 @@ const Book: FC<PropsWithChildren<BookProps>> = ({...rest}) => {
             breadcrumbName: '首页'
           },
           {
-            path: `/book/${bookId}`,
+            path: `/books/${bookId}`,
             breadcrumbName: book.name
           }
         ]

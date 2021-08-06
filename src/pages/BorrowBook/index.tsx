@@ -53,7 +53,7 @@ const BorrowBook: FC<Props> = () => {
     >
       <PageContainer
         header={{
-          title: '图书',
+          title: '借阅管理',
           ghost: true,
           breadcrumb: {
             routes: [
@@ -62,8 +62,8 @@ const BorrowBook: FC<Props> = () => {
                 breadcrumbName: '首页'
               },
               {
-                path: '/book',
-                breadcrumbName: '图书'
+                path: '/borrow-book',
+                breadcrumbName: '借阅管理'
               }
             ]
           },

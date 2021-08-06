@@ -1,4 +1,4 @@
-import type {FC} from 'react';
+import {FC, useState} from 'react';
 import {Button,Input,Menu,message,Select,SelectProps} from 'antd';
 import {PageContainer} from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
@@ -38,6 +38,7 @@ const TableMultipleSelect: React.FC<{value?: API.Category[]|BookStatus,nativePro
 };
 const BookManagement: FC<Props> = (props) => {
     const {categoryList,publisherList} = useBookLogic()
+    const [bookList,setBookList] = useState<API.Book[]>([])
     const [form] = useForm();
     const columns: ProColumns<API.Book>[] = [
       {dataIndex: 'id',title: '编号'},
@@ -92,7 +93,7 @@ const BookManagement: FC<Props> = (props) => {
     >
       <PageContainer
         header={{
-          title: '图书',
+          title: '图书管理',
           ghost: true,
           breadcrumb: {
             routes: [
@@ -101,8 +102,8 @@ const BookManagement: FC<Props> = (props) => {
                 breadcrumbName: '首页'
               },
               {
-                path: '/book',
-                breadcrumbName: '图书'
+                path: '/book-management',
+                breadcrumbName: '图书管理'
               }
             ]
           },
@@ -121,10 +122,9 @@ const BookManagement: FC<Props> = (props) => {
                 // 可以添加多行，但是在添加的过程中取消不会消失只能手动删除
                 // newRecordType: 'dataSource',
                 position: 'top',
-                record: (...a) => {
-                  console.log(a,'asd');
+                record: () => {
                   return {
-                    id: a[0] + 1
+                    id: bookList[0]?.id+1
                   };
                 }
               }}
@@ -133,7 +133,9 @@ const BookManagement: FC<Props> = (props) => {
               request={async(params = {},sort,filter) => {
                 console.log("params,sort,filter");
                 console.log(params,sort,filter);
-                return  queryGetBookList(params);
+                const list  = await queryGetBookList(params);
+                setBookList(list.data)
+                return  list
               }}
               editable={{
                 form,
@@ -147,8 +149,6 @@ const BookManagement: FC<Props> = (props) => {
                   return response
                 },
                 onSave: async (id,formData,formDataCopy,indexs) => {
-                  console.log("id,formData,formDataCopy,indexs");
-                  console.log(id,formData,formDataCopy,indexs);
                   if (indexs) {
                     // 如果存在索引信息，说明是创建
                     const response = await queryAddBooks({...formData,publisher: formData.publisher.id,categories: formData.categories.map((category) => (category.id))});

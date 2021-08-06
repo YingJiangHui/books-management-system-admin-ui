@@ -21,7 +21,7 @@ const Book: FC<Props> = () => {
     >
       <PageContainer
         header={{
-          title: '图书',
+          title: '图书列表',
           ghost: true,
           breadcrumb: {
             routes: [
@@ -30,8 +30,8 @@ const Book: FC<Props> = () => {
                 breadcrumbName: '首页',
               },
               {
-                path: '/book-management',
-                breadcrumbName: '图书',
+                path: '/books',
+                breadcrumbName: '图书列表',
               },
             ],
           },

@@ -22,8 +22,8 @@ const BorrowBook: FC<Props> = () => {
     };
     const columns: ProColumns<API.BorrowBook>[] = [
       {dataIndex: 'id', title: '编号'},
-      {dataIndex: 'book', title: '图书编号', render: (data) => <Link to={`/book/${data.id}`}>{data.id}</Link>},
-      {dataIndex: 'book', title: '书名', render: (data) => <Link to={`/book/${data.id}`}>{data.name}</Link>},
+      {dataIndex: 'book', title: '图书编号', render: (data) => <Link to={`/books/${data.id}`}>{data.id}</Link>},
+      {dataIndex: 'book', title: '书名', render: (data) => <Link to={`/books/${data.id}`}>{data.name}</Link>},
       {title: '起始日期', dataIndex: 'startedDate'},
       {title: '结束日期', dataIndex: 'endDate'},
       {
